@@ -1,16 +1,10 @@
-"use client";
-import { useSearchParams } from 'next/navigation';
-import LoginForm from '../../components/LoginForm';
+import { redirect } from 'next/navigation';
+import LoginClient from './LoginClient';
+
+// Force dynamic rendering for this page
+export const dynamic = 'force-dynamic';
 
 export default function LoginPage() {
-  const searchParams = useSearchParams();
-  const role = searchParams.get('role') || '';
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="w-full max-w-md p-8 bg-white rounded shadow">
-        <h1 className="text-2xl font-bold mb-6 text-center">Sign in to SGMS</h1>
-        <LoginForm roleHint={role} />
-      </div>
-    </div>
-  );
+  // This server component will force dynamic rendering
+  return <LoginClient />;
 }
