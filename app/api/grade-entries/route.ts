@@ -6,6 +6,9 @@ import { authOptions } from '../../../lib/authOptions';
 
 const prisma = new PrismaClient();
 
+// Force dynamic rendering for this API route
+export const dynamic = 'force-dynamic';
+
 const gradeEntrySchema = z.object({
   assessmentId: z.string().min(1),
   studentId: z.string().min(1),

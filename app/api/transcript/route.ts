@@ -5,6 +5,9 @@ import { authOptions } from '@/lib/authOptions';
 
 const prisma = new PrismaClient();
 
+// Force dynamic rendering for this API route
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
