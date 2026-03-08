@@ -33,12 +33,10 @@ export async function GET(req: NextRequest) {
     // Get computed grades for each course
     const grades = await Promise.all(
       enrollments.map(async (enrollment) => {
-        const computedGrade = await prisma.computedGrade.findUnique({
+        const computedGrade = await prisma.computedGrade.findFirst({
           where: {
-            studentId_courseId: {
-              studentId: student.id,
-              courseId: enrollment.courseId
-            }
+            studentId: student.id,
+            courseId: enrollment.courseId
           }
         });
 
