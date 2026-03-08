@@ -126,7 +126,7 @@ model ComputedGrade {
 
 model GradeScale {
   id     String @id @default(uuid())
-  letter String
+  letter String @unique
   min    Int
   max    Int
   points Float
