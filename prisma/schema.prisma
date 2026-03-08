@@ -122,6 +122,8 @@ model ComputedGrade {
   letterGrade  String
   gpaPoints    Float?
   computedAt   DateTime @default(now())
+  
+  @@unique([studentId, courseId])
 }
 
 model GradeScale {
