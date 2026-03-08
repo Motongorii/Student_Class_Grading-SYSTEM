@@ -99,6 +99,26 @@ async function main() {
       });
     }
   
+  // Seed grade scale
+  const gradeScales = [
+    { letter: 'A', min: 80, max: 100, points: 4.0 },
+    { letter: 'B+', min: 75, max: 79, points: 3.5 },
+    { letter: 'B', min: 70, max: 74, points: 3.0 },
+    { letter: 'C+', min: 65, max: 69, points: 2.5 },
+    { letter: 'C', min: 60, max: 64, points: 2.0 },
+    { letter: 'D+', min: 55, max: 59, points: 1.5 },
+    { letter: 'D', min: 50, max: 54, points: 1.0 },
+    { letter: 'F', min: 0, max: 49, points: 0.0 },
+  ];
+
+  for (const scale of gradeScales) {
+    await prisma.gradeScale.upsert({
+      where: { letter: scale.letter },
+      update: scale,
+      create: scale,
+    });
+  }
+
   // Users (upsert to avoid unique constraint errors)
   const admin = await prisma.user.upsert({
     where: { email: 'admin@sgms.com' },

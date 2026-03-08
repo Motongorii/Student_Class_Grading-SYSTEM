@@ -22,6 +22,14 @@ export default async function StudentPage() {
         <div className="w-full bg-gradient-to-r from-blue-100 via-indigo-100 to-purple-100 rounded-xl p-6 shadow flex flex-col items-start mb-4">
           <h2 className="font-bold text-lg text-blue-800 mb-1">Subject: GOVE 101 - Government</h2>
           <p className="text-gray-700">You are enrolled in this subject. Use the options below to view your results and transcript.</p>
+          <div className="mt-4 flex gap-3">
+            <a
+              href="/student/transcript"
+              className="inline-flex items-center px-4 py-2 bg-purple-600 text-white font-semibold rounded-lg shadow hover:bg-purple-700 transition-all text-sm"
+            >
+              📄 View Transcript
+            </a>
+          </div>
         </div>
         {/* Grades Table */}
         <Suspense fallback={<div>Loading grades...</div>}>
