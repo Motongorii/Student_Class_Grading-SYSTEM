@@ -9,10 +9,28 @@ export async function GET(request: NextRequest) {
     // Check for a secret key to prevent unauthorized access
     const { searchParams } = new URL(request.url);
     const secret = searchParams.get('secret');
+    const envSecret = process.env.SEED_SECRET;
+
+    // Debug logging
+    console.log('Seed API called');
+    console.log('Secret from URL:', secret);
+    console.log('Secret from ENV:', envSecret ? '***set***' : '***NOT SET***');
+
+    // Check if env var is missing
+    if (!envSecret) {
+      return NextResponse.json({
+        success: false,
+        error: 'SEED_SECRET environment variable not set in Vercel dashboard'
+      }, { status: 500 });
+    }
 
     // Only allow seeding with a secret key (set this in your environment variables)
-    if (secret !== process.env.SEED_SECRET) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    if (secret !== envSecret) {
+      return NextResponse.json({
+        success: false,
+        error: 'Invalid or missing secret. Secrets do not match.',
+        hint: 'Ensure SEED_SECRET in Vercel matches the secret in your URL'
+      }, { status: 401 });
     }
 
     console.log('Starting database seeding...');
