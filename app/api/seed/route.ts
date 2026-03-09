@@ -229,7 +229,6 @@ export async function GET(request: NextRequest) {
           name: `${studentData.firstName} ${studentData.lastName}`,
           passwordHash: studentPassword,
           role: 'STUDENT',
-          department: 'Engineering',
           faculty: { connect: { id: facultyEngineering.id } }
         }
       });
@@ -267,7 +266,6 @@ export async function GET(request: NextRequest) {
           name: `${studentData.firstName} ${studentData.lastName}`,
           passwordHash: studentPassword,
           role: 'STUDENT',
-          department: 'Education',
           faculty: { connect: { id: facultyEducation.id } }
         }
       });
@@ -305,7 +303,6 @@ export async function GET(request: NextRequest) {
           name: `${studentData.firstName} ${studentData.lastName}`,
           passwordHash: studentPassword,
           role: 'STUDENT',
-          department: 'Agriculture',
           faculty: { connect: { id: facultyAgriculture.id } }
         }
       });
@@ -343,7 +340,6 @@ export async function GET(request: NextRequest) {
           name: `${studentData.firstName} ${studentData.lastName}`,
           passwordHash: studentPassword,
           role: 'STUDENT',
-          department: 'Computing',
           faculty: { connect: { id: facultyComputing.id } }
         }
       });
