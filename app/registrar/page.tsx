@@ -20,8 +20,7 @@ function ErrorBoundary({ error }: { error: Error }) {
 
 export default async function RegistrarPage() {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session || ((session.user as any)?.role !== 'REGISTRAR')) redirect('/login');
+    // Session check is now handled by middleware
 
     // Get some stats
     const totalStudents = await prisma.student.count();

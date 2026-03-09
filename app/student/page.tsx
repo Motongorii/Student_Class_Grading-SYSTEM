@@ -10,8 +10,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export default async function StudentPage() {
-  const session = await getServerSession(authOptions);
-  if (!session || (session.user as any)?.role !== 'STUDENT') redirect('/login');
+  // Session check is now handled by middleware
 
   // Get student details with enrollments
   const student = await prisma.student.findUnique({

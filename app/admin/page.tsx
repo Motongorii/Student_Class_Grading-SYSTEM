@@ -1,7 +1,6 @@
 
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../lib/authOptions';
-import { redirect } from 'next/navigation';
 import AdminSidebar from '../../components/AdminSidebar';
 import { PrismaClient } from '@prisma/client';
 import Link from 'next/link';
@@ -9,8 +8,7 @@ import Link from 'next/link';
 const prisma = new PrismaClient();
 
 export default async function AdminPage() {
-  const session = await getServerSession(authOptions);
-  if (!session || session.user.role !== 'ADMIN') redirect('/login');
+  // Session check is now handled by middleware
 
   // Get system statistics
   const totalStudents = await prisma.student.count();
