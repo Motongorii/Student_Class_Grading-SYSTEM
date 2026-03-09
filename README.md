@@ -130,8 +130,12 @@ Visit `http://localhost:3000`
   - prof.miller@sgms.com / password123 (Prof. Patricia Miller - Animal Science)
   - dr.wilson@sgms.com / password123 (Dr. Thomas Wilson - Software Engineering)
   - prof.taylor@sgms.com / password123 (Prof. Lisa Taylor - Networks & Security)
-- Students: student1@sgms.com to student20@sgms.com / password123
-  - Each student has unique admission number ADM001 to ADM020
+- Students:
+  - Engineering: eng.student1@sgms.com to eng.student5@sgms.com / password123
+  - Education: edu.student1@sgms.com to edu.student5@sgms.com / password123
+  - Agriculture: agr.student1@sgms.com to agr.student5@sgms.com / password123
+  - Computing: csc.student1@sgms.com to csc.student5@sgms.com / password123
+  - Each student has unique admission number (ENG1001-ENG1005, EDU1001-EDU1005, AGR1001-AGR1005, CSC1001-CSC1005)
 
 ## Notes
 - See SRS for full requirements.

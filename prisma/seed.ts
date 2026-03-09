@@ -194,6 +194,19 @@ async function main() {
           status: 'ACTIVE'
         }
       });
+
+      // Create corresponding User record for authentication
+      await prisma.user.create({
+        data: {
+          email: `eng.student${i}@sgms.com`,
+          name: `Engineering${i} Student${i}`,
+          passwordHash: studentPassword,
+          role: 'STUDENT',
+          department: 'Engineering',
+          faculty: { connect: { id: facultyEngineering.id } }
+        }
+      });
+
       students.push({ student, faculty: 'Engineering' });
     }
 
@@ -210,6 +223,19 @@ async function main() {
           status: 'ACTIVE'
         }
       });
+
+      // Create corresponding User record for authentication
+      await prisma.user.create({
+        data: {
+          email: `edu.student${i}@sgms.com`,
+          name: `Education${i} Student${i}`,
+          passwordHash: studentPassword,
+          role: 'STUDENT',
+          department: 'Education',
+          faculty: { connect: { id: facultyEducation.id } }
+        }
+      });
+
       students.push({ student, faculty: 'Education' });
     }
 
@@ -226,6 +252,19 @@ async function main() {
           status: 'ACTIVE'
         }
       });
+
+      // Create corresponding User record for authentication
+      await prisma.user.create({
+        data: {
+          email: `agr.student${i}@sgms.com`,
+          name: `Agriculture${i} Student${i}`,
+          passwordHash: studentPassword,
+          role: 'STUDENT',
+          department: 'Agriculture',
+          faculty: { connect: { id: facultyAgriculture.id } }
+        }
+      });
+
       students.push({ student, faculty: 'Agriculture' });
     }
 
@@ -242,6 +281,19 @@ async function main() {
           status: 'ACTIVE'
         }
       });
+
+      // Create corresponding User record for authentication
+      await prisma.user.create({
+        data: {
+          email: `csc.student${i}@sgms.com`,
+          name: `Computing${i} Student${i}`,
+          passwordHash: studentPassword,
+          role: 'STUDENT',
+          department: 'Computing',
+          faculty: { connect: { id: facultyComputing.id } }
+        }
+      });
+
       students.push({ student, faculty: 'Computing' });
     }
 
