@@ -93,7 +93,6 @@ export async function GET(request: NextRequest) {
         name: 'Admin User',
         passwordHash: adminPassword,
         role: 'ADMIN',
-        department: 'Administration',
       }
     });
 
@@ -104,7 +103,6 @@ export async function GET(request: NextRequest) {
         name: 'Jane Registrar',
         passwordHash: registrarPassword,
         role: 'REGISTRAR',
-        department: 'Registrar Office',
       }
     });
 
@@ -118,7 +116,6 @@ export async function GET(request: NextRequest) {
         name: 'Dr. John Smith',
         passwordHash: instructorPassword,
         role: 'INSTRUCTOR',
-        department: 'Mechanical Engineering',
         faculty: { connect: { id: facultyEngineering.id } }
       }
     });
@@ -129,7 +126,6 @@ export async function GET(request: NextRequest) {
         name: 'Prof. Michael Johnson',
         passwordHash: instructorPassword,
         role: 'INSTRUCTOR',
-        department: 'Civil Engineering',
         faculty: { connect: { id: facultyEngineering.id } }
       }
     });
@@ -141,7 +137,6 @@ export async function GET(request: NextRequest) {
         name: 'Dr. Sarah Williams',
         passwordHash: instructorPassword,
         role: 'INSTRUCTOR',
-        department: 'Psychology & Education',
         faculty: { connect: { id: facultyEducation.id } }
       }
     });
@@ -152,7 +147,6 @@ export async function GET(request: NextRequest) {
         name: 'Prof. Robert Brown',
         passwordHash: instructorPassword,
         role: 'INSTRUCTOR',
-        department: 'Curriculum & Instruction',
         faculty: { connect: { id: facultyEducation.id } }
       }
     });
@@ -164,7 +158,6 @@ export async function GET(request: NextRequest) {
         name: 'Dr. James Davis',
         passwordHash: instructorPassword,
         role: 'INSTRUCTOR',
-        department: 'Crop Science',
         faculty: { connect: { id: facultyAgriculture.id } }
       }
     });
@@ -175,7 +168,6 @@ export async function GET(request: NextRequest) {
         name: 'Prof. Patricia Miller',
         passwordHash: instructorPassword,
         role: 'INSTRUCTOR',
-        department: 'Animal Science',
         faculty: { connect: { id: facultyAgriculture.id } }
       }
     });
@@ -187,7 +179,6 @@ export async function GET(request: NextRequest) {
         name: 'Dr. Thomas Wilson',
         passwordHash: instructorPassword,
         role: 'INSTRUCTOR',
-        department: 'Software Engineering',
         faculty: { connect: { id: facultyComputing.id } }
       }
     });
@@ -198,7 +189,6 @@ export async function GET(request: NextRequest) {
         name: 'Prof. Lisa Taylor',
         passwordHash: instructorPassword,
         role: 'INSTRUCTOR',
-        department: 'Networks & Security',
         faculty: { connect: { id: facultyComputing.id } }
       }
     });
