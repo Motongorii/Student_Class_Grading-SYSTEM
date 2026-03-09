@@ -13,7 +13,7 @@ export default async function InstructorsPage() {
   const instructors = await prisma.user.findMany({
     where: { role: 'INSTRUCTOR' },
     include: {
-      courseInstructor: {
+      instructorCourses: {
         include: { course: true }
       }
     },
@@ -60,7 +60,7 @@ export default async function InstructorsPage() {
                   <tr key={instructor.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{instructor.name}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{instructor.email}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{instructor.courseInstructor.length} courses</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{instructor.instructorCourses.length} courses</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
                       <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                         Active

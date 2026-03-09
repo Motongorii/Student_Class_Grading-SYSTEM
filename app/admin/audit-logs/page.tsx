@@ -70,7 +70,7 @@ export default async function AuditLogsPage() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{log.entityType}</td>
                     <td className="px-6 py-4 text-sm text-gray-600">
-                      <span className="truncate max-w-xs block">{log.details}</span>
+                      <span className="truncate max-w-xs block">{log.afterJSON || log.beforeJSON || 'N/A'}</span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {new Date(log.createdAt).toLocaleString()}

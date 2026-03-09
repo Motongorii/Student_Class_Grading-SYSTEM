@@ -1,7 +1,6 @@
-import { Role } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
 
-export function requireRole(roles: Role[]) {
+export function requireRole(roles: string[]) {
   return async (req: NextRequest, next: () => Promise<NextResponse>) => {
     const session = req.cookies.get('next-auth.session-token');
     // You should replace this with actual session/user lookup
@@ -19,7 +18,7 @@ export function requireRole(roles: Role[]) {
   };
 }
 
-export function requireSelfOrRole(userId: string, roles: Role[], reqUser: { id: string, role: Role }) {
+export function requireSelfOrRole(userId: string, roles: string[], reqUser: { id: string, role: string }) {
   if (reqUser.id === userId) return true;
   return roles.includes(reqUser.role);
 }

@@ -12,7 +12,8 @@ export const dynamic = 'force-dynamic';
 const courseSchema = z.object({
   code: z.string().min(1),
   title: z.string().min(1),
-  credits: z.number().int().min(1)
+  credits: z.number().int().min(1),
+  facultyId: z.string().min(1)
 });
 
 export async function GET(req: NextRequest) {
@@ -53,6 +54,7 @@ export async function POST(req: NextRequest) {
         code: parsed.data.code,
         title: parsed.data.title,
         credits: parsed.data.credits,
+        facultyId: parsed.data.facultyId,
       },
     });
     // TODO: Add audit log

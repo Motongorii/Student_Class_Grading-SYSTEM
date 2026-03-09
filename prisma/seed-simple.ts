@@ -79,6 +79,18 @@ async function main() {
     });
     console.log('✓ Student user created');
 
+    // Create a sample faculty
+    const faculty = await prisma.faculty.upsert({
+      where: { code: 'CS' },
+      update: {},
+      create: {
+        name: 'Computer Science',
+        code: 'CS',
+        description: 'Department of Computer Science',
+      },
+    });
+    console.log('✓ Sample faculty created');
+
     // Create a sample course
     const course = await prisma.course.upsert({
       where: { code: 'CS101' },
@@ -87,6 +99,7 @@ async function main() {
         code: 'CS101',
         title: 'Introduction to Computer Science',
         credits: 3,
+        facultyId: faculty.id,
       },
     });
     console.log('✓ Sample course created');

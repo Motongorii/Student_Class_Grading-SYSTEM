@@ -19,8 +19,7 @@ export default async function ReportsPage() {
   const courseStats = await prisma.course.findMany({
     include: {
       enrollments: true,
-      assessments: true,
-      gradeEntrys: true
+      assessments: true
     }
   });
 
@@ -82,7 +81,6 @@ export default async function ReportsPage() {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Enrolled</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Assessments</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Grade Entries</th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
@@ -92,7 +90,6 @@ export default async function ReportsPage() {
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{course.title}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{course.enrollments.length}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{course.assessments.length}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{course.gradeEntrys.length}</td>
                   </tr>
                 ))}
               </tbody>

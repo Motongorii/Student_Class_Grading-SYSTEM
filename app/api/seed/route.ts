@@ -586,16 +586,16 @@ export async function GET(request: NextRequest) {
     // ========== CREATE GRADE SCALE ==========
     await prisma.gradeScale.createMany({
       data: [
-        { letterGrade: 'A', minPercentage: 90, maxPercentage: 100, gpa: 4.0 },
-        { letterGrade: 'A-', minPercentage: 85, maxPercentage: 89.99, gpa: 3.7 },
-        { letterGrade: 'B+', minPercentage: 80, maxPercentage: 84.99, gpa: 3.3 },
-        { letterGrade: 'B', minPercentage: 75, maxPercentage: 79.99, gpa: 3.0 },
-        { letterGrade: 'B-', minPercentage: 70, maxPercentage: 74.99, gpa: 2.7 },
-        { letterGrade: 'C+', minPercentage: 65, maxPercentage: 69.99, gpa: 2.3 },
-        { letterGrade: 'C', minPercentage: 60, maxPercentage: 64.99, gpa: 2.0 },
-        { letterGrade: 'C-', minPercentage: 55, maxPercentage: 59.99, gpa: 1.7 },
-        { letterGrade: 'D', minPercentage: 50, maxPercentage: 54.99, gpa: 1.0 },
-        { letterGrade: 'F', minPercentage: 0, maxPercentage: 49.99, gpa: 0.0 }
+        { letter: 'A', min: 90, max: 100, points: 4.0 },
+        { letter: 'A-', min: 85, max: 89, points: 3.7 },
+        { letter: 'B+', min: 80, max: 84, points: 3.3 },
+        { letter: 'B', min: 75, max: 79, points: 3.0 },
+        { letter: 'B-', min: 70, max: 74, points: 2.7 },
+        { letter: 'C+', min: 65, max: 69, points: 2.3 },
+        { letter: 'C', min: 60, max: 64, points: 2.0 },
+        { letter: 'C-', min: 55, max: 59, points: 1.7 },
+        { letter: 'D', min: 50, max: 54, points: 1.0 },
+        { letter: 'F', min: 0, max: 49, points: 0.0 }
       ]
     });
 
