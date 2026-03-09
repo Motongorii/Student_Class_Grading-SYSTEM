@@ -7,7 +7,7 @@ A production-ready, full-stack grading management platform for universities and 
 ## Quick Links
 - **[SRS Compliance Report](./SRS_COMPLIANCE_REPORT.md)** - Full requirements verification
 - **[Implementation Guide](./IMPLEMENTATION_GUIDE.md)** - Feature documentation and usage
-- **[Live Demo](http://localhost:3001)** - Run locally with `npm run dev`
+- **[Live Demo](http://localhost:3000)** - Run locally with `npm run dev`
 
 ## Tech Stack
 - Next.js 14+ (App Router, TypeScript)
@@ -122,8 +122,8 @@ Visit `http://localhost:3000`
 - Admin: admin@sgms.com / password123
 - Registrar: registrar@sgms.com / password123
 - Instructor: instructor@sgms.com / password123
-- Student: student1@sgms.com / password123
-- Student: student3@sgms.com / password123
+- Students: student1@sgms.com to student20@sgms.com / password123
+  - Each student has unique admission number ADM001 to ADM020
 
 ## Notes
 - See SRS for full requirements.

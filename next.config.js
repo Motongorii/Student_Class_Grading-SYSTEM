@@ -3,8 +3,6 @@ const nextConfig = {
   // Disable static optimization for all pages to prevent prerendering issues
   experimental: {
     serverComponentsExternalPackages: ['@prisma/client', 'bcrypt'],
-    // Disable static generation for dynamic routes
-    serverActions: true,
   },
   // Configure for Vercel deployment
   images: {

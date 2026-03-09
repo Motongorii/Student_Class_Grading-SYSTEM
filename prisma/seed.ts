@@ -4,294 +4,516 @@ import bcrypt from 'bcrypt';
 const prisma = new PrismaClient();
 
 async function main() {
-  // Password hash - declare first
-  const password = await bcrypt.hash('password123', 10);
+  try {
+    console.log('Starting comprehensive seed...');
 
-      // Create GOVE 101 - Government course if not exists
-      const goveCourse = await prisma.course.upsert({
-        where: { code: 'GOVE101' },
-        update: {},
-        create: {
-          code: 'GOVE101',
-          title: 'GOVE 101 - Government',
-          credits: 3,
-        },
+    // Clean existing data
+    await prisma.auditLog.deleteMany();
+    await prisma.gradeEntry.deleteMany();
+    await prisma.computedGrade.deleteMany();
+    await prisma.enrollment.deleteMany();
+    await prisma.assessment.deleteMany();
+    await prisma.courseInstructor.deleteMany();
+    await prisma.course.deleteMany();
+    await prisma.student.deleteMany();
+    await prisma.gradeScale.deleteMany();
+    await prisma.user.deleteMany();
+    await prisma.faculty.deleteMany();
+
+    console.log('✓ Cleaned existing data');
+
+    // ========== CREATE FACULTIES ==========
+    const facultyEngineering = await prisma.faculty.create({
+      data: {
+        name: 'School of Engineering',
+        code: 'ENG',
+        description: 'Faculty of Engineering and Technology',
+      }
+    });
+
+    const facultyEducation = await prisma.faculty.create({
+      data: {
+        name: 'School of Education',
+        code: 'EDU',
+        description: 'Faculty of Education and Teacher Training',
+      }
+    });
+
+    const facultyAgriculture = await prisma.faculty.create({
+      data: {
+        name: 'School of Agriculture',
+        code: 'AGR',
+        description: 'Faculty of Agriculture and Environmental Sciences',
+      }
+    });
+
+    const facultyComputing = await prisma.faculty.create({
+      data: {
+        name: 'School of Computing',
+        code: 'CSC',
+        description: 'Faculty of Computing and Information Technology',
+      }
+    });
+
+    console.log('✓ Created 4 faculties');
+
+    // ========== CREATE USERS ==========
+    const adminPassword = await bcrypt.hash('password123', 10);
+    const admin = await prisma.user.create({
+      data: {
+        email: 'admin@sgms.com',
+        name: 'Admin User',
+        passwordHash: adminPassword,
+        role: 'ADMIN',
+        department: 'Administration',
+      }
+    });
+
+    const registrarPassword = await bcrypt.hash('password123', 10);
+    const registrar = await prisma.user.create({
+      data: {
+        email: 'registrar@sgms.com',
+        name: 'Jane Registrar',
+        passwordHash: registrarPassword,
+        role: 'REGISTRAR',
+        department: 'Registrar Office',
+      }
+    });
+
+    // ========== CREATE INSTRUCTORS BY FACULTY ==========
+    const instructorPassword = await bcrypt.hash('password123', 10);
+
+    // Engineering Instructors
+    const instrEng1 = await prisma.user.create({
+      data: {
+        email: 'dr.smith@sgms.com',
+        name: 'Dr. John Smith',
+        passwordHash: instructorPassword,
+        role: 'INSTRUCTOR',
+        department: 'Mechanical Engineering',
+        faculty: { connect: { id: facultyEngineering.id } }
+      }
+    });
+
+    const instrEng2 = await prisma.user.create({
+      data: {
+        email: 'prof.johnson@sgms.com',
+        name: 'Prof. Michael Johnson',
+        passwordHash: instructorPassword,
+        role: 'INSTRUCTOR',
+        department: 'Civil Engineering',
+        faculty: { connect: { id: facultyEngineering.id } }
+      }
+    });
+
+    // Education Instructors
+    const instrEdu1 = await prisma.user.create({
+      data: {
+        email: 'dr.williams@sgms.com',
+        name: 'Dr. Sarah Williams',
+        passwordHash: instructorPassword,
+        role: 'INSTRUCTOR',
+        department: 'Psychology & Education',
+        faculty: { connect: { id: facultyEducation.id } }
+      }
+    });
+
+    const instrEdu2 = await prisma.user.create({
+      data: {
+        email: 'prof.brown@sgms.com',
+        name: 'Prof. Robert Brown',
+        passwordHash: instructorPassword,
+        role: 'INSTRUCTOR',
+        department: 'Curriculum & Instruction',
+        faculty: { connect: { id: facultyEducation.id } }
+      }
+    });
+
+    // Agriculture Instructors
+    const instrAgr1 = await prisma.user.create({
+      data: {
+        email: 'dr.davis@sgms.com',
+        name: 'Dr. James Davis',
+        passwordHash: instructorPassword,
+        role: 'INSTRUCTOR',
+        department: 'Crop Science',
+        faculty: { connect: { id: facultyAgriculture.id } }
+      }
+    });
+
+    const instrAgr2 = await prisma.user.create({
+      data: {
+        email: 'prof.miller@sgms.com',
+        name: 'Prof. Patricia Miller',
+        passwordHash: instructorPassword,
+        role: 'INSTRUCTOR',
+        department: 'Animal Science',
+        faculty: { connect: { id: facultyAgriculture.id } }
+      }
+    });
+
+    // Computing Instructors
+    const instrCsc1 = await prisma.user.create({
+      data: {
+        email: 'dr.wilson@sgms.com',
+        name: 'Dr. Thomas Wilson',
+        passwordHash: instructorPassword,
+        role: 'INSTRUCTOR',
+        department: 'Software Engineering',
+        faculty: { connect: { id: facultyComputing.id } }
+      }
+    });
+
+    const instrCsc2 = await prisma.user.create({
+      data: {
+        email: 'prof.taylor@sgms.com',
+        name: 'Prof. Lisa Taylor',
+        passwordHash: instructorPassword,
+        role: 'INSTRUCTOR',
+        department: 'Networks & Security',
+        faculty: { connect: { id: facultyComputing.id } }
+      }
+    });
+
+    console.log('✓ Created 8 instructors across faculties');
+
+    // ========== CREATE STUDENTS ==========
+    const studentPassword = await bcrypt.hash('password123', 10);
+    const students: any[] = [];
+
+    // Engineering Students
+    for (let i = 1; i <= 5; i++) {
+      const student = await prisma.student.create({
+        data: {
+          admissionNo: `ENG${1000 + i}`,
+          firstName: `Engineering${i}`,
+          lastName: `Student${i}`,
+          email: `eng.student${i}@sgms.com`,
+          courseProgram: 'Bachelor of Engineering',
+          yearOfStudy: Math.floor(i / 2) + 1,
+          status: 'ACTIVE'
+        }
+      });
+      students.push({ student, faculty: 'Engineering' });
+    }
+
+    // Education Students
+    for (let i = 1; i <= 5; i++) {
+      const student = await prisma.student.create({
+        data: {
+          admissionNo: `EDU${1000 + i}`,
+          firstName: `Education${i}`,
+          lastName: `Student${i}`,
+          email: `edu.student${i}@sgms.com`,
+          courseProgram: 'Bachelor of Education',
+          yearOfStudy: Math.floor(i / 2) + 1,
+          status: 'ACTIVE'
+        }
+      });
+      students.push({ student, faculty: 'Education' });
+    }
+
+    // Agriculture Students
+    for (let i = 1; i <= 5; i++) {
+      const student = await prisma.student.create({
+        data: {
+          admissionNo: `AGR${1000 + i}`,
+          firstName: `Agriculture${i}`,
+          lastName: `Student${i}`,
+          email: `agr.student${i}@sgms.com`,
+          courseProgram: 'Bachelor of Agriculture',
+          yearOfStudy: Math.floor(i / 2) + 1,
+          status: 'ACTIVE'
+        }
+      });
+      students.push({ student, faculty: 'Agriculture' });
+    }
+
+    // Computing Students
+    for (let i = 1; i <= 5; i++) {
+      const student = await prisma.student.create({
+        data: {
+          admissionNo: `CSC${1000 + i}`,
+          firstName: `Computing${i}`,
+          lastName: `Student${i}`,
+          email: `csc.student${i}@sgms.com`,
+          courseProgram: 'Bachelor of Computing',
+          yearOfStudy: Math.floor(i / 2) + 1,
+          status: 'ACTIVE'
+        }
+      });
+      students.push({ student, faculty: 'Computing' });
+    }
+
+    console.log('✓ Created 20 students');
+
+    // ========== CREATE COURSES BY FACULTY ==========
+
+    // Engineering Courses
+    const engCourse1 = await prisma.course.create({
+      data: {
+        code: 'ENG101',
+        title: 'Introduction to Engineering',
+        credits: 3,
+        faculty: { connect: { id: facultyEngineering.id } }
+      }
+    });
+
+    const engCourse2 = await prisma.course.create({
+      data: {
+        code: 'ENG201',
+        title: 'Thermodynamics',
+        credits: 4,
+        faculty: { connect: { id: facultyEngineering.id } }
+      }
+    });
+
+    // Education Courses
+    const eduCourse1 = await prisma.course.create({
+      data: {
+        code: 'EDU101',
+        title: 'Education Psychology',
+        credits: 3,
+        faculty: { connect: { id: facultyEducation.id } }
+      }
+    });
+
+    const eduCourse2 = await prisma.course.create({
+      data: {
+        code: 'EDU201',
+        title: 'Curriculum Development',
+        credits: 3,
+        faculty: { connect: { id: facultyEducation.id } }
+      }
+    });
+
+    // Agriculture Courses
+    const agrCourse1 = await prisma.course.create({
+      data: {
+        code: 'AGR101',
+        title: 'Agricultural Science Fundamentals',
+        credits: 3,
+        faculty: { connect: { id: facultyAgriculture.id } }
+      }
+    });
+
+    const agrCourse2 = await prisma.course.create({
+      data: {
+        code: 'AGR201',
+        title: 'Crop Production',
+        credits: 4,
+        faculty: { connect: { id: facultyAgriculture.id } }
+      }
+    });
+
+    // Computing Courses
+    const cscCourse1 = await prisma.course.create({
+      data: {
+        code: 'CSC101',
+        title: 'Introduction to Programming',
+        credits: 3,
+        faculty: { connect: { id: facultyComputing.id } }
+      }
+    });
+
+    const cscCourse2 = await prisma.course.create({
+      data: {
+        code: 'CSC201',
+        title: 'Data Structures',
+        credits: 4,
+        faculty: { connect: { id: facultyComputing.id } }
+      }
+    });
+
+    console.log('✓ Created 8 courses across faculties');
+
+    // ========== ASSIGN INSTRUCTORS TO COURSES ==========
+    await prisma.courseInstructor.createMany({
+      data: [
+        { courseId: engCourse1.id, instructorUserId: instrEng1.id },
+        { courseId: engCourse2.id, instructorUserId: instrEng2.id },
+        { courseId: eduCourse1.id, instructorUserId: instrEdu1.id },
+        { courseId: eduCourse2.id, instructorUserId: instrEdu2.id },
+        { courseId: agrCourse1.id, instructorUserId: instrAgr1.id },
+        { courseId: agrCourse2.id, instructorUserId: instrAgr2.id },
+        { courseId: cscCourse1.id, instructorUserId: instrCsc1.id },
+        { courseId: cscCourse2.id, instructorUserId: instrCsc2.id },
+      ]
+    });
+
+    console.log('✓ Assigned instructors to courses');
+
+    // ========== CREATE ASSESSMENTS FOR EACH COURSE ==========
+    const assessmentsByInstructor: Record<string, Array<{name: string; weight: number; maxMarks: number}>> = {
+      [instrEng1.id]: [
+        { name: 'Quiz 1', weight: 10, maxMarks: 10 },
+        { name: 'Assignment 1', weight: 15, maxMarks: 20 },
+        { name: 'Midterm Exam', weight: 25, maxMarks: 40 },
+        { name: 'Final Exam', weight: 50, maxMarks: 100 }
+      ],
+      [instrEng2.id]: [
+        { name: 'Lab Work', weight: 20, maxMarks: 25 },
+        { name: 'Quiz', weight: 10, maxMarks: 15 },
+        { name: 'Midterm', weight: 25, maxMarks: 40 },
+        { name: 'Final Exam', weight: 45, maxMarks: 100 }
+      ],
+      [instrEdu1.id]: [
+        { name: 'Class Participation', weight: 15, maxMarks: 20 },
+        { name: 'Assignment', weight: 20, maxMarks: 30 },
+        { name: 'Midterm', weight: 25, maxMarks: 40 },
+        { name: 'Final Exam', weight: 40, maxMarks: 100 }
+      ],
+      [instrEdu2.id]: [
+        { name: 'Project', weight: 25, maxMarks: 50 },
+        { name: 'Presentation', weight: 20, maxMarks: 30 },
+        { name: 'Exam', weight: 55, maxMarks: 100 }
+      ],
+      [instrAgr1.id]: [
+        { name: 'Practicum', weight: 30, maxMarks: 40 },
+        { name: 'Quiz', weight: 15, maxMarks: 20 },
+        { name: 'Midterm', weight: 20, maxMarks: 40 },
+        { name: 'Final Exam', weight: 35, maxMarks: 100 }
+      ],
+      [instrAgr2.id]: [
+        { name: 'Field Work', weight: 35, maxMarks: 50 },
+        { name: 'Assignment', weight: 15, maxMarks: 25 },
+        { name: 'Final Exam', weight: 50, maxMarks: 100 }
+      ],
+      [instrCsc1.id]: [
+        { name: 'Programming Exercise 1', weight: 15, maxMarks: 25 },
+        { name: 'Programming Exercise 2', weight: 15, maxMarks: 25 },
+        { name: 'Midterm', weight: 25, maxMarks: 40 },
+        { name: 'Final Exam', weight: 45, maxMarks: 100 }
+      ],
+      [instrCsc2.id]: [
+        { name: 'Lab Assignment', weight: 20, maxMarks: 30 },
+        { name: 'Quiz', weight: 15, maxMarks: 20 },
+        { name: 'Project', weight: 20, maxMarks: 40 },
+        { name: 'Final Exam', weight: 45, maxMarks: 100 }
+      ]
+    };
+
+    const coursesByInstructor: Record<string, any> = {
+      [instrEng1.id]: engCourse1,
+      [instrEng2.id]: engCourse2,
+      [instrEdu1.id]: eduCourse1,
+      [instrEdu2.id]: eduCourse2,
+      [instrAgr1.id]: agrCourse1,
+      [instrAgr2.id]: agrCourse2,
+      [instrCsc1.id]: cscCourse1,
+      [instrCsc2.id]: cscCourse2,
+    };
+
+    const assessments: any[] = [];
+
+    for (const [instrId, assmts] of Object.entries(assessmentsByInstructor)) {
+      const courseId = coursesByInstructor[instrId].id;
+      for (const assmt of assmts) {
+        const created = await prisma.assessment.create({
+          data: {
+            courseId,
+            name: assmt.name,
+            weight: assmt.weight,
+            maxMarks: assmt.maxMarks
+          }
+        });
+        assessments.push(created);
+      }
+    }
+
+    console.log(`✓ Created ${assessments.length} assessments`);
+
+    // ========== ENROLL STUDENTS IN COURSES ==========
+    const enrollmentsByFaculty: Record<string, any[]> = {
+      'Engineering': [engCourse1, engCourse2],
+      'Education': [eduCourse1, eduCourse2],
+      'Agriculture': [agrCourse1, agrCourse2],
+      'Computing': [cscCourse1, cscCourse2]
+    };
+
+    for (const { student, faculty } of students) {
+      const courses = enrollmentsByFaculty[faculty as keyof typeof enrollmentsByFaculty] || [];
+      for (const course of courses) {
+        await prisma.enrollment.create({
+          data: {
+            studentId: student.id,
+            courseId: course.id
+          }
+        }).catch(() => {
+          // Handle unique constraint if enrollment already exists
+        });
+      }
+    }
+
+    console.log('✓ Enrolled students in courses');
+
+    // ========== CREATE GRADE ENTRIES ==========
+    let gradeEntryCount = 0;
+    for (const assmt of assessments) {
+      // Get students for this course
+      const enrollments = await prisma.enrollment.findMany({
+        where: { courseId: assmt.courseId },
+        include: { student: true }
       });
 
-      // Seed 5 assessments for GOVE 101
-      const assessments = [
-        { name: 'Quiz 1', weight: 10, maxMarks: 10 },
-        { name: 'Quiz 2', weight: 10, maxMarks: 10 },
-        { name: 'Midterm Exam', weight: 30, maxMarks: 30 },
-        { name: 'Project', weight: 20, maxMarks: 20 },
-        { name: 'Final Exam', weight: 30, maxMarks: 30 },
-      ];
-      for (const a of assessments) {
-        // upsert by first trying to find a matching assessment, since
-        // there isn't a compound unique constraint on name+courseId
-        const existing = await prisma.assessment.findFirst({
-          where: { name: a.name, courseId: goveCourse.id },
-        });
-        if (!existing) {
-          await prisma.assessment.create({
-            data: { ...a, courseId: goveCourse.id },
+      // Get instructor teaching this course
+      const courseInstructor = await prisma.courseInstructor.findFirst({
+        where: { courseId: assmt.courseId },
+        include: { instructor: true }
+      });
+
+      if (courseInstructor) {
+        for (const enrollment of enrollments) {
+          const marks = Math.random() * assmt.maxMarks;
+          await prisma.gradeEntry.create({
+            data: {
+              assessmentId: assmt.id,
+              studentId: enrollment.studentId,
+              marks: Math.round(marks * 100) / 100,
+              status: 'APPROVED',
+              createdByUserId: courseInstructor.instructorUserId,
+              approvedByUserId: registrar.id
+            }
           });
+          gradeEntryCount++;
         }
       }
-    // Add 25 students (and users) for GOVE 101 - Government
-    const studentData = [
-      { firstName: 'David', lastName: 'Miller', email: 'student4@sgms.com', admissionNo: 'ADM004' },
-      { firstName: 'Emma', lastName: 'Davis', email: 'student5@sgms.com', admissionNo: 'ADM005' },
-      { firstName: 'Frank', lastName: 'Garcia', email: 'student6@sgms.com', admissionNo: 'ADM006' },
-      { firstName: 'Grace', lastName: 'Martinez', email: 'student7@sgms.com', admissionNo: 'ADM007' },
-      { firstName: 'Henry', lastName: 'Rodriguez', email: 'student8@sgms.com', admissionNo: 'ADM008' },
-      { firstName: 'Isabella', lastName: 'Martins', email: 'student9@sgms.com', admissionNo: 'ADM009' },
-      { firstName: 'Jack', lastName: 'Lee', email: 'student10@sgms.com', admissionNo: 'ADM010' },
-      { firstName: 'Katherine', lastName: 'Walker', email: 'student11@sgms.com', admissionNo: 'ADM011' },
-      { firstName: 'Liam', lastName: 'Hall', email: 'student12@sgms.com', admissionNo: 'ADM012' },
-      { firstName: 'Mia', lastName: 'Allen', email: 'student13@sgms.com', admissionNo: 'ADM013' },
-      { firstName: 'Noah', lastName: 'Young', email: 'student14@sgms.com', admissionNo: 'ADM014' },
-      { firstName: 'Olivia', lastName: 'Hernandez', email: 'student15@sgms.com', admissionNo: 'ADM015' },
-      { firstName: 'Paul', lastName: 'King', email: 'student16@sgms.com', admissionNo: 'ADM016' },
-      { firstName: 'Quinn', lastName: 'Wright', email: 'student17@sgms.com', admissionNo: 'ADM017' },
-      { firstName: 'Ruby', lastName: 'Lopez', email: 'student18@sgms.com', admissionNo: 'ADM018' },
-      { firstName: 'Samuel', lastName: 'Hill', email: 'student19@sgms.com', admissionNo: 'ADM019' },
-      { firstName: 'Tina', lastName: 'Scott', email: 'student20@sgms.com', admissionNo: 'ADM020' },
-      { firstName: 'Uma', lastName: 'Green', email: 'student21@sgms.com', admissionNo: 'ADM021' },
-      { firstName: 'Victor', lastName: 'Adams', email: 'student22@sgms.com', admissionNo: 'ADM022' },
-      { firstName: 'Wendy', lastName: 'Baker', email: 'student23@sgms.com', admissionNo: 'ADM023' },
-      { firstName: 'Xavier', lastName: 'Nelson', email: 'student24@sgms.com', admissionNo: 'ADM024' },
-      { firstName: 'Yara', lastName: 'Carter', email: 'student25@sgms.com', admissionNo: 'ADM025' },
-      { firstName: 'Zane', lastName: 'Mitchell', email: 'student26@sgms.com', admissionNo: 'ADM026' },
-      { firstName: 'Ava', lastName: 'Perez', email: 'student27@sgms.com', admissionNo: 'ADM027' },
-      { firstName: 'Benjamin', lastName: 'Roberts', email: 'student28@sgms.com', admissionNo: 'ADM028' },
-    ];
-    for (const [i, s] of studentData.entries()) {
-      await prisma.user.upsert({
-        where: { email: s.email },
-        update: { passwordHash: password, name: `${s.firstName} ${s.lastName}`, role: 'STUDENT' },
-        create: {
-          name: `${s.firstName} ${s.lastName}`,
-          email: s.email,
-          passwordHash: password,
-          role: 'STUDENT',
-        },
-      });
-      await prisma.student.upsert({
-        where: { email: s.email },
-        update: {
-          admissionNo: s.admissionNo,
-          firstName: s.firstName,
-          lastName: s.lastName,
-          courseProgram: 'GOVE 101 - Government',
-          yearOfStudy: 1,
-          status: 'ACTIVE',
-        },
-        create: {
-          admissionNo: s.admissionNo,
-          firstName: s.firstName,
-          lastName: s.lastName,
-          email: s.email,
-          courseProgram: 'GOVE 101 - Government',
-          yearOfStudy: 1,
-          status: 'ACTIVE',
-        },
-      });
     }
-  
-  // Seed grade scale
-  const gradeScales = [
-    { letter: 'A', min: 80, max: 100, points: 4.0 },
-    { letter: 'B+', min: 75, max: 79, points: 3.5 },
-    { letter: 'B', min: 70, max: 74, points: 3.0 },
-    { letter: 'C+', min: 65, max: 69, points: 2.5 },
-    { letter: 'C', min: 60, max: 64, points: 2.0 },
-    { letter: 'D+', min: 55, max: 59, points: 1.5 },
-    { letter: 'D', min: 50, max: 54, points: 1.0 },
-    { letter: 'F', min: 0, max: 49, points: 0.0 },
-  ];
 
-  for (const scale of gradeScales) {
-    await prisma.gradeScale.upsert({
-      where: { letter: scale.letter },
-      update: scale,
-      create: scale,
+    console.log(`✓ Created ${gradeEntryCount} grade entries`);
+
+    // ========== CREATE GRADE SCALES ==========
+    await prisma.gradeScale.createMany({
+      data: [
+        { letter: 'A', min: 80, max: 100, points: 4.0 },
+        { letter: 'B', min: 70, max: 79, points: 3.0 },
+        { letter: 'C', min: 60, max: 69, points: 2.0 },
+        { letter: 'D', min: 50, max: 59, points: 1.0 },
+        { letter: 'F', min: 0, max: 49, points: 0.0 }
+      ]
     });
+
+    console.log('✓ Created grade scales');
+
+    console.log('\n========== SEED COMPLETE ==========');
+    console.log('System ready with:');
+    console.log('- 4 Faculties (Engineering, Education, Agriculture, Computing)');
+    console.log('- 8 Instructors (2 per faculty)');
+    console.log('- 20 Students (5 per faculty)');
+    console.log('- 8 Courses (2 per faculty)');
+    console.log(`- ${assessments.length} Assessments (4 per course)`);
+    console.log(`- ${gradeEntryCount} Grade Entries`);
+    console.log('\nTest Credentials:');
+    console.log('Admin: admin@sgms.com / password123');
+    console.log('Registrar: registrar@sgms.com / password123');
+    console.log('Instructors: dr.smith@sgms.com, prof.johnson@sgms.com, etc. / password123');
+
+  } catch (error) {
+    console.error('Seed error:', error);
+    throw error;
+  } finally {
+    await prisma.$disconnect();
   }
-
-  // Users (upsert to avoid unique constraint errors)
-  const admin = await prisma.user.upsert({
-    where: { email: 'admin@sgms.com' },
-    update: { passwordHash: password, name: 'Admin User', role: 'ADMIN' },
-    create: {
-      name: 'Admin User',
-      email: 'admin@sgms.com',
-      passwordHash: password,
-      role: 'ADMIN',
-    },
-  });
-  const registrar = await prisma.user.upsert({
-    where: { email: 'registrar@sgms.com' },
-    update: { passwordHash: password, name: 'Registrar User', role: 'REGISTRAR' },
-    create: {
-      name: 'Registrar User',
-      email: 'registrar@sgms.com',
-      passwordHash: password,
-      role: 'REGISTRAR',
-    },
-  });
-  const instructor = await prisma.user.upsert({
-    where: { email: 'instructor@sgms.com' },
-    update: { passwordHash: password, name: 'Instructor User', role: 'INSTRUCTOR' },
-    create: {
-      name: 'Instructor User',
-      email: 'instructor@sgms.com',
-      passwordHash: password,
-      role: 'INSTRUCTOR',
-    },
-  });
-  // Add student1 as a User for login
-  const studentUser1 = await prisma.user.upsert({
-    where: { email: 'student1@sgms.com' },
-    update: { passwordHash: password, name: 'Alice Smith', role: 'STUDENT' },
-    create: {
-      name: 'Alice Smith',
-      email: 'student1@sgms.com',
-      passwordHash: password,
-      role: 'STUDENT',
-    },
-  });
-  // Add student2 as a User for login
-  const studentUser2 = await prisma.user.upsert({
-    where: { email: 'student2@sgms.com' },
-    update: { passwordHash: password, name: 'Bob Johnson', role: 'STUDENT' },
-    create: {
-      name: 'Bob Johnson',
-      email: 'student2@sgms.com',
-      passwordHash: password,
-      role: 'STUDENT',
-    },
-  });
-  // Add student3 as a User for login
-  const studentUser3 = await prisma.user.upsert({
-    where: { email: 'student3@sgms.com' },
-    update: { passwordHash: password, name: 'Carol Williams', role: 'STUDENT' },
-    create: {
-      name: 'Carol Williams',
-      email: 'student3@sgms.com',
-      passwordHash: password,
-      role: 'STUDENT',
-    },
-  });
-
-  // ...existing code...
-
-  // Students (upsert to avoid unique constraint errors)
-  await prisma.student.upsert({
-    where: { email: 'student1@sgms.com' },
-    update: {
-      admissionNo: 'ADM001',
-      firstName: 'Alice',
-      lastName: 'Smith',
-      courseProgram: 'Computer Science',
-      yearOfStudy: 1,
-      status: 'ACTIVE',
-    },
-    create: {
-      admissionNo: 'ADM001',
-      firstName: 'Alice',
-      lastName: 'Smith',
-      email: 'student1@sgms.com',
-      courseProgram: 'Computer Science',
-      yearOfStudy: 1,
-      status: 'ACTIVE',
-    },
-  });
-  await prisma.student.upsert({
-    where: { email: 'student2@sgms.com' },
-    update: {
-      admissionNo: 'ADM002',
-      firstName: 'Bob',
-      lastName: 'Johnson',
-      courseProgram: 'Computer Science',
-      yearOfStudy: 2,
-      status: 'ACTIVE',
-    },
-    create: {
-      admissionNo: 'ADM002',
-      firstName: 'Bob',
-      lastName: 'Johnson',
-      email: 'student2@sgms.com',
-      courseProgram: 'Computer Science',
-      yearOfStudy: 2,
-      status: 'ACTIVE',
-    },
-  });
-  await prisma.student.upsert({
-    where: { email: 'student3@sgms.com' },
-    update: {
-      admissionNo: 'ADM003',
-      firstName: 'Carol',
-      lastName: 'Williams',
-      courseProgram: 'Mathematics',
-      yearOfStudy: 1,
-      status: 'ACTIVE',
-    },
-    create: {
-      admissionNo: 'ADM003',
-      firstName: 'Carol',
-      lastName: 'Williams',
-      email: 'student3@sgms.com',
-      courseProgram: 'Mathematics',
-      yearOfStudy: 1,
-      status: 'ACTIVE',
-    },
-  });
-
-  // Courses
-  const course1 = await prisma.course.create({
-    data: {
-      code: 'CS101',
-      title: 'Intro to Computer Science',
-      credits: 3,
-    },
-  });
-  const course2 = await prisma.course.create({
-    data: {
-      code: 'MATH201',
-      title: 'Advanced Mathematics',
-      credits: 4,
-    },
-  });
-
-  // Assign instructor to courses
-  await prisma.courseInstructor.createMany({
-    data: [
-      { courseId: course1.id, instructorUserId: instructor.id },
-      { courseId: course2.id, instructorUserId: instructor.id },
-    ],
-  });
-
-  // Enroll students
-  const allStudents = await prisma.student.findMany();
-  await prisma.enrollment.createMany({
-    data: [
-      { studentId: allStudents[0].id, courseId: course1.id },
-      { studentId: allStudents[1].id, courseId: course1.id },
-      { studentId: allStudents[2].id, courseId: course2.id },
-    ],
-  });
-
-  // Grade scale
-  await prisma.gradeScale.createMany({
-    data: [
-      { letter: 'A', min: 70, max: 100, points: 4.0 },
-      { letter: 'B', min: 60, max: 69, points: 3.0 },
-      { letter: 'C', min: 50, max: 59, points: 2.0 },
-      { letter: 'D', min: 40, max: 49, points: 1.0 },
-      { letter: 'E', min: 0, max: 39, points: 0.0 },
-    ],
-  });
 }
 
 main()

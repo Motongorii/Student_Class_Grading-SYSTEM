@@ -17,10 +17,23 @@ const courseSchema = z.object({
 
 export async function GET(req: NextRequest) {
   const session = await getServerSession(authOptions);
-  if (!session || session.user.role !== 'ADMIN') {
+  if (!session || (session.user.role !== 'ADMIN' && session.user.role !== 'REGISTRAR' && session.user.role !== 'INSTRUCTOR')) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
-  const courses = await prisma.course.findMany({ orderBy: { createdAt: 'desc' } });
+
+  let courses;
+  if (session.user.role === 'INSTRUCTOR') {
+    // For instructors, only return courses they are assigned to
+    const user = await prisma.user.findUnique({
+      where: { email: session.user.email },
+      include: { instructorCourses: { include: { course: true } } }
+    });
+    courses = user?.instructorCourses.map(ic => ic.course) || [];
+  } else {
+    // For admin and registrar, return all courses
+    courses = await prisma.course.findMany({ orderBy: { createdAt: 'desc' } });
+  }
+
   return NextResponse.json(courses);
 }
 

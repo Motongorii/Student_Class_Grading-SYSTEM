@@ -1,4 +1,15 @@
-# 🎓 SGMS - FINAL SYSTEM VERIFICATION CHECKLIST
+    at nM (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+    at nL (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+    at nI (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+    at nM (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+    at nM (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+    at nL (/vercel/path0/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+Error occurred prerendering page "/login". Read more: https://nextjs.org/docs/messages/prerender-error
+ ✓ Generating static pages (19/19)
+> Export encountered errors on following paths:
+	/login/page: /login
+Error: Command "npm run build" exited with 1
+Deployment Summary# 🎓 SGMS - FINAL SYSTEM VERIFICATION CHECKLIST
 
 **Student Grading Management System - Production Readiness Assessment**  
 **Date**: March 8, 2026  

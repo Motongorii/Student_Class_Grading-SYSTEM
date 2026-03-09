@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/authOptions';
 import { computeStudentGrade } from '@/lib/gradeComputation';
 
 const prisma = new PrismaClient();
@@ -8,6 +10,11 @@ export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const session = await getServerSession(authOptions);
+  if (!session || (session.user.role !== 'INSTRUCTOR' && session.user.role !== 'REGISTRAR' && session.user.role !== 'ADMIN')) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  }
+
   try {
     const courseId = params.id;
 

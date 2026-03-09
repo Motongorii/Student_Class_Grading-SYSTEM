@@ -17,6 +17,11 @@ const gradeEntrySchema = z.object({
 });
 
 export async function GET(req: NextRequest) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   // Optionally filter by assessmentId or studentId
   const { searchParams } = new URL(req.url);
   const assessmentId = searchParams.get('assessmentId');
@@ -24,6 +29,17 @@ export async function GET(req: NextRequest) {
   const where: any = {};
   if (assessmentId) where.assessmentId = assessmentId;
   if (studentId) where.studentId = studentId;
+
+  // If user is STUDENT, only show their own grades
+  if (session.user.role === 'STUDENT') {
+    const student = await prisma.student.findUnique({
+      where: { email: session.user.email }
+    });
+    if (student) {
+      where.studentId = student.id;
+    }
+  }
+
   const entries = await prisma.gradeEntry.findMany({
     where,
     orderBy: { createdAt: 'desc' },

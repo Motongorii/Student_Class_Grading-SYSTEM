@@ -21,7 +21,7 @@ const studentSchema = z.object({
 
 export async function GET(req: NextRequest) {
   const session = await getServerSession(authOptions);
-  if (!session || (session.user.role !== 'ADMIN' && session.user.role !== 'INSTRUCTOR')) {
+  if (!session || (session.user.role !== 'ADMIN' && session.user.role !== 'INSTRUCTOR' && session.user.role !== 'REGISTRAR')) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
   const students = await prisma.student.findMany({ orderBy: { createdAt: 'desc' } });
