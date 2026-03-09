@@ -1,8 +1,12 @@
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../lib/authOptions';
+import { redirect } from 'next/navigation';
 
 export default async function InstructorPage() {
   const session = await getServerSession(authOptions);
+  if (!session || session.user?.role !== 'INSTRUCTOR') {
+    redirect('/login?role=INSTRUCTOR');
+  }
   
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 via-indigo-100 to-purple-50 px-2 py-0">

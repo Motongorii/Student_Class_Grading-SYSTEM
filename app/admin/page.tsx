@@ -9,6 +9,7 @@ const prisma = new PrismaClient();
 
 export default async function AdminPage() {
   // Session check is now handled by middleware
+  const session = await getServerSession(authOptions);
 
   // Get system statistics
   const totalStudents = await prisma.student.count();

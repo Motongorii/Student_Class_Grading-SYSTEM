@@ -21,7 +21,34 @@ export async function GET(req: NextRequest) {
   if (!session || (session.user.role !== 'INSTRUCTOR' && session.user.role !== 'ADMIN')) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
-  const assessments = await prisma.assessment.findMany({ orderBy: { createdAt: 'desc' } });
+
+  let assessments;
+  if (session.user.role === 'INSTRUCTOR') {
+    // For instructors, only return assessments for their courses
+    const user = await prisma.user.findUnique({
+      where: { email: session.user.email },
+      include: {
+        instructorCourses: {
+          include: {
+            course: {
+              include: { assessments: true }
+            }
+          }
+        }
+      }
+    });
+
+    // Get assessments from all instructor's courses
+    const assessmentList = [];
+    for (const courseInstructor of user?.instructorCourses || []) {
+      assessmentList.push(...courseInstructor.course.assessments);
+    }
+    assessments = assessmentList;
+  } else {
+    // For admin, return all assessments
+    assessments = await prisma.assessment.findMany({ orderBy: { createdAt: 'desc' } });
+  }
+
   return NextResponse.json(assessments);
 }
 
@@ -35,8 +62,24 @@ export async function POST(req: NextRequest) {
   if (!parsed.success) {
     return NextResponse.json({ error: 'Validation failed', details: parsed.error.flatten() }, { status: 400 });
   }
+
+  // Validate that the instructor is assigned to this course
+  const { courseId } = parsed.data;
+  const user = await prisma.user.findUnique({
+    where: { email: session.user.email },
+    include: {
+      instructorCourses: {
+        where: { courseId }
+      }
+    }
+  });
+
+  if (!user || user.instructorCourses.length === 0) {
+    return NextResponse.json({ error: 'You are not assigned to this course' }, { status: 403 });
+  }
+
   // Validate total weights for the course
-  const { courseId, weight } = parsed.data;
+  const { weight } = parsed.data;
   const existing = await prisma.assessment.findMany({ where: { courseId } });
   const totalWeight = existing.reduce((sum, a) => sum + a.weight, 0) + weight;
   if (totalWeight > 100) {

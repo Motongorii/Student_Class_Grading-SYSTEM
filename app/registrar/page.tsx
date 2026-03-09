@@ -19,10 +19,12 @@ function ErrorBoundary({ error }: { error: Error }) {
 }
 
 export default async function RegistrarPage() {
+  const session = await getServerSession(authOptions);
+  if (!session || session.user?.role !== 'REGISTRAR') {
+    redirect('/login?role=REGISTRAR');
+  }
+  
   try {
-    // Session check is now handled by middleware
-
-    // Get some stats
     const totalStudents = await prisma.student.count();
     const activeStudents = await prisma.student.count({ where: { status: 'ACTIVE' } });
     const totalCourses = await prisma.course.count();
@@ -33,7 +35,7 @@ export default async function RegistrarPage() {
           <div className="w-full flex justify-between items-center mb-2">
             <div>
               <h1 className="text-3xl font-extrabold text-pink-700 tracking-tight">Registrar Dashboard</h1>
-              <p className="text-gray-600 mt-1">Welcome back, {session.user.name}</p>
+              <p className="text-gray-600 mt-1">Welcome back, {session?.user?.name}</p>
             </div>
             <a href="/" className="inline-flex items-center px-4 py-2 bg-pink-100 text-pink-700 font-semibold rounded-lg shadow hover:bg-pink-200 transition-all text-sm">
               ← Home

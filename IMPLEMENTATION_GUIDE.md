@@ -29,7 +29,7 @@ npm run dev
 ```
 Admin:      admin@sgms.com / password123
 Instructor: instructor@sgms.com / password123
-Student:    student1@sgms.com / password123
+Student:    alex.johnson@sgms.com / password123
 Registrar:  registrar@sgms.com / password123
 ```
 
@@ -74,7 +74,7 @@ User → Login Page → Role Selection → Authenticate → Redirect to Role Das
   "admissionNo": "ADM001",      // Unique ID
   "firstName": "Alice",          // First name
   "lastName": "Smith",           // Last name
-  "email": "student1@sgms.com",  // Email
+  "email": "alex.johnson@sgms.com",  // Email
   "courseProgram": "GOVE 101",   // Program
   "yearOfStudy": 1,              // Academic year
   "status": "ACTIVE"             // Active/Inactive

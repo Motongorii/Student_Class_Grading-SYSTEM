@@ -336,8 +336,8 @@ All users have password: `password123`
 |-------|------|---------|
 | admin@sgms.com | ADMIN | System administration |
 | instructor@sgms.com | INSTRUCTOR | Grade management and reporting |
-| student1@sgms.com | STUDENT | Student portal (Alice Smith) |
-| student2-28@sgms.com | STUDENT | Additional test students |
+| alex.johnson@sgms.com | STUDENT | Student portal (Alex Johnson) |
+| maria.garcia@sgms.com | STUDENT | Additional test student |
 | registrar@sgms.com | REGISTRAR | Academic records management |
 
 ---

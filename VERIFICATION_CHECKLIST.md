@@ -268,7 +268,7 @@ Deployment Summary# 🎓 SGMS - FINAL SYSTEM VERIFICATION CHECKLIST
 |-------|------|--------|
 | admin@sgms.com | ADMIN | ✅ Active |
 | instructor@sgms.com | INSTRUCTOR | ✅ Active |
-| student1-28@sgms.com | STUDENT | ✅ 28 Active |
+| alex.johnson@sgms.com | STUDENT | ✅ Active |
 | registrar@sgms.com | REGISTRAR | ✅ Active |
 
 ### ✅ Test Data Seeded

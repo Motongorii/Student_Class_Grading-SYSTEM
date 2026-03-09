@@ -40,6 +40,28 @@ export async function GET(req: NextRequest) {
     }
   }
 
+  // If user is INSTRUCTOR, only show grades for their courses
+  if (session.user.role === 'INSTRUCTOR') {
+    const user = await prisma.user.findUnique({
+      where: { email: session.user.email },
+      include: {
+        instructorCourses: {
+          include: { course: true }
+        }
+      }
+    });
+
+    const courseIds = user?.instructorCourses.map(ci => ci.course.id) || [];
+    if (courseIds.length > 0) {
+      where.assessment = {
+        courseId: { in: courseIds }
+      };
+    } else {
+      // If instructor has no courses, return empty array
+      return NextResponse.json([]);
+    }
+  }
+
   const entries = await prisma.gradeEntry.findMany({
     where,
     orderBy: { createdAt: 'desc' },

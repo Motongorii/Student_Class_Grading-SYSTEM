@@ -1,15 +1,29 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
   const router = useRouter();
+  const { data: session } = require('next-auth/react').useSession();
   const heroRef = useRef<HTMLDivElement>(null);
+
   const scrollToHero = () => {
     if (heroRef.current) {
       heroRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
+
+  // helper that either sends a user to login (with role hint) or straight to the
+  // correct dashboard if they're already authenticated
+  const navigatePortal = (role: string, path: string) => {
+    if (session) {
+      router.push(path);
+    } else {
+      router.push(`/login?role=${role}`);
+    }
+  };
+
   return (
     <main className="min-h-screen w-full bg-gradient-to-br from-blue-50 via-indigo-100 to-purple-50 flex flex-col items-center justify-start px-2 py-0">
       {/* Hero Section */}
@@ -24,19 +38,19 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-4 w-full max-w-lg mx-auto justify-center mt-4">
             <button
               className="flex-1 w-full bg-white/90 text-blue-700 font-bold py-3 rounded-xl shadow-lg hover:bg-blue-100 hover:scale-105 transition-all text-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-              onClick={() => router.push('/login?role=INSTRUCTOR')}
+              onClick={() => navigatePortal('INSTRUCTOR', '/instructor')}
             >
               Instructor Portal
             </button>
             <button
               className="flex-1 w-full bg-white/90 text-purple-700 font-bold py-3 rounded-xl shadow-lg hover:bg-purple-100 hover:scale-105 transition-all text-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
-              onClick={() => router.push('/login?role=REGISTRAR')}
+              onClick={() => navigatePortal('REGISTRAR', '/registrar')}
             >
               Registrar Portal
             </button>
             <button
               className="flex-1 w-full bg-white/90 text-pink-700 font-bold py-3 rounded-xl shadow-lg hover:bg-pink-100 hover:scale-105 transition-all text-lg focus:outline-none focus:ring-2 focus:ring-pink-400"
-              onClick={() => router.push('/login?role=STUDENT')}
+              onClick={() => navigatePortal('STUDENT', '/student')}
             >
               Student Portal
             </button>

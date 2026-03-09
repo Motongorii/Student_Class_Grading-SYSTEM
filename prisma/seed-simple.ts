@@ -52,14 +52,14 @@ async function main() {
     // Create student user
     const studentPassword = await bcrypt.hash('student123', 10);
     const student = await prisma.student.upsert({
-      where: { email: 'student@sgms.com' },
+      where: { email: 'alex.johnson@sgms.com' },
       update: {},
       create: {
-        email: 'student@sgms.com',
-        firstName: 'Student',
-        lastName: 'User',
-        admissionNo: 'STU001',
-        courseProgram: 'Computer Science',
+        email: 'alex.johnson@sgms.com',
+        firstName: 'Alex',
+        lastName: 'Johnson',
+        admissionNo: 'ENG1001',
+        courseProgram: 'Bachelor of Engineering',
         yearOfStudy: 1,
         status: 'ACTIVE',
       },
@@ -68,11 +68,11 @@ async function main() {
 
     // Create user for student
     await prisma.user.upsert({
-      where: { email: 'student@sgms.com' },
+      where: { email: 'alex.johnson@sgms.com' },
       update: {},
       create: {
-        email: 'student@sgms.com',
-        name: 'Student User',
+        email: 'alex.johnson@sgms.com',
+        name: 'Alex Johnson',
         passwordHash: studentPassword,
         role: 'STUDENT',
       },

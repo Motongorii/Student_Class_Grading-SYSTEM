@@ -24,7 +24,44 @@ export async function GET(req: NextRequest) {
   if (!session || (session.user.role !== 'ADMIN' && session.user.role !== 'INSTRUCTOR' && session.user.role !== 'REGISTRAR')) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
-  const students = await prisma.student.findMany({ orderBy: { createdAt: 'desc' } });
+
+  let students;
+  if (session.user.role === 'INSTRUCTOR') {
+    // For instructors, only return students enrolled in their courses
+    const user = await prisma.user.findUnique({
+      where: { email: session.user.email },
+      include: {
+        instructorCourses: {
+          include: {
+            course: {
+              include: {
+                enrollments: {
+                  include: { student: true }
+                }
+              }
+            }
+          }
+        }
+      }
+    });
+
+    // Get unique students from all instructor's courses
+    const studentSet = new Set();
+    const uniqueStudents = [];
+    for (const courseInstructor of user?.instructorCourses || []) {
+      for (const enrollment of courseInstructor.course.enrollments) {
+        if (!studentSet.has(enrollment.student.id)) {
+          studentSet.add(enrollment.student.id);
+          uniqueStudents.push(enrollment.student);
+        }
+      }
+    }
+    students = uniqueStudents;
+  } else {
+    // For admin and registrar, return all students
+    students = await prisma.student.findMany({ orderBy: { createdAt: 'desc' } });
+  }
+
   return NextResponse.json(students);
 }
 

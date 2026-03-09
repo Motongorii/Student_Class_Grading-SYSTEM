@@ -1,11 +1,12 @@
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import { PrismaClient } from '@prisma/client';
+import { authOptions } from '../../../lib/authOptions';
 
 const prisma = new PrismaClient();
 
 export default async function StudentsPage() {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   if (!session || session.user.role !== 'ADMIN') redirect('/login');
   const students = await prisma.student.findMany({ orderBy: { createdAt: 'desc' } });
   return (

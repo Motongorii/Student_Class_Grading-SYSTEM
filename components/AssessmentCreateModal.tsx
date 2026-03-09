@@ -1,12 +1,33 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function AssessmentCreateModal({ open, onClose, onCreated }) {
   const [name, setName] = useState("");
   const [weight, setWeight] = useState("");
   const [maxMarks, setMaxMarks] = useState("");
+  const [courseId, setCourseId] = useState("");
+  const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (open) {
+      // Fetch instructor's courses
+      fetchCourses();
+    }
+  }, [open]);
+
+  const fetchCourses = async () => {
+    try {
+      const res = await fetch("/api/courses");
+      const data = await res.json();
+      setCourses(data);
+    } catch (error) {
+      console.error("Failed to fetch courses");
+    }
+  };
+
+  if (!open) return null;
 
   if (!open) return null;
 
@@ -22,13 +43,14 @@ export default function AssessmentCreateModal({ open, onClose, onCreated }) {
           name,
           weight: Number(weight),
           maxMarks: Number(maxMarks),
-          courseId: undefined // Will be set by backend or instructor context
+          courseId
         }),
       });
       if (!res.ok) throw new Error("Failed to create assessment");
       setName("");
       setWeight("");
       setMaxMarks("");
+      setCourseId("");
       onCreated && onCreated();
       onClose();
     } catch (err) {
@@ -50,6 +72,22 @@ export default function AssessmentCreateModal({ open, onClose, onCreated }) {
         </button>
         <h2 className="text-xl font-bold mb-4 text-purple-700">Create Assessment</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-semibold mb-1">Course</label>
+            <select
+              className="w-full border rounded px-3 py-2"
+              value={courseId}
+              onChange={e => setCourseId(e.target.value)}
+              required
+            >
+              <option value="">Select course</option>
+              {courses.map(course => (
+                <option key={course.id} value={course.id}>
+                  {course.code} - {course.title}
+                </option>
+              ))}
+            </select>
+          </div>
           <div>
             <label className="block text-sm font-semibold mb-1">Name</label>
             <input className="w-full border rounded px-3 py-2" value={name} onChange={e => setName(e.target.value)} required />

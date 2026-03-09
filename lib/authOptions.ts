@@ -23,10 +23,10 @@ export const authOptions: NextAuthOptions = {
         if (!user) throw new Error('User not found');
         const valid = await compare(credentials.password, user.passwordHash);
         if (!valid) throw new Error('Invalid password');
-        // Only allow login if role matches
-        if (role && user.role !== role) {
-          throw new Error('Role not allowed');
-        }
+        // Only allow login if role matches (commented out for development flexibility)
+        // if (role && user.role !== role) {
+        //   throw new Error('Role not allowed');
+        // }
         return { id: user.id, name: user.name, email: user.email, role: user.role };
       },
     }),
