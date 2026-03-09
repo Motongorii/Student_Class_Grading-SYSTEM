@@ -7,7 +7,7 @@ A production-ready, full-stack grading management platform for universities and 
 ## Quick Links
 - **[SRS Compliance Report](./SRS_COMPLIANCE_REPORT.md)** - Full requirements verification
 - **[Implementation Guide](./IMPLEMENTATION_GUIDE.md)** - Feature documentation and usage
-- **[Live Demo](http://localhost:3000)** - Run locally with `npm run dev`
+- **[Live Demo](http://localhost:3001)** - Run locally with `npm run dev`
 
 ## Tech Stack
 - Next.js 14+ (App Router, TypeScript)
