@@ -15,7 +15,6 @@ model User {
   email        String   @unique
   passwordHash String
   role         String
-  department   String?
   faculty      Faculty? @relation(fields: [facultyId], references: [id])
   facultyId    String?
   createdAt    DateTime @default(now())
