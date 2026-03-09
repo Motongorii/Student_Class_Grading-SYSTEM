@@ -536,13 +536,13 @@ export async function GET(request: NextRequest) {
 
     // ========== ENROLL STUDENTS IN COURSES ==========
     // Enroll students in courses based on their faculty
-    const engineeringStudents = students.filter(s => s.faculty === 'Engineering');
-    const educationStudents = students.filter(s => s.faculty === 'Education');
-    const agricultureStudents = students.filter(s => s.faculty === 'Agriculture');
-    const computingStudents = students.filter(s => s.faculty === 'Computing');
+    const enrolledEngineeringStudents = students.filter(s => s.faculty === 'Engineering');
+    const enrolledEducationStudents = students.filter(s => s.faculty === 'Education');
+    const enrolledAgricultureStudents = students.filter(s => s.faculty === 'Agriculture');
+    const enrolledComputingStudents = students.filter(s => s.faculty === 'Computing');
 
     // Enroll Engineering students in Engineering courses
-    for (const student of engineeringStudents) {
+    for (const student of enrolledEngineeringStudents) {
       await prisma.enrollment.createMany({
         data: [
           { studentId: student.student.id, courseId: engCourse1.id },
@@ -552,7 +552,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Enroll Education students in Education courses
-    for (const student of educationStudents) {
+    for (const student of enrolledEducationStudents) {
       await prisma.enrollment.createMany({
         data: [
           { studentId: student.student.id, courseId: eduCourse1.id },
@@ -562,7 +562,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Enroll Agriculture students in Agriculture courses
-    for (const student of agricultureStudents) {
+    for (const student of enrolledAgricultureStudents) {
       await prisma.enrollment.createMany({
         data: [
           { studentId: student.student.id, courseId: agrCourse1.id },
@@ -572,7 +572,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Enroll Computing students in Computing courses
-    for (const student of computingStudents) {
+    for (const student of enrolledComputingStudents) {
       await prisma.enrollment.createMany({
         data: [
           { studentId: student.student.id, courseId: cscCourse1.id },
