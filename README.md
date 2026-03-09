@@ -121,7 +121,15 @@ Visit `http://localhost:3000`
 ## Example Users
 - Admin: admin@sgms.com / password123
 - Registrar: registrar@sgms.com / password123
-- Instructor: instructor@sgms.com / password123
+- Instructors:
+  - dr.smith@sgms.com / password123 (Dr. John Smith - Mechanical Engineering)
+  - prof.johnson@sgms.com / password123 (Prof. Michael Johnson - Civil Engineering)
+  - dr.williams@sgms.com / password123 (Dr. Sarah Williams - Psychology & Education)
+  - prof.brown@sgms.com / password123 (Prof. Robert Brown - Curriculum & Instruction)
+  - dr.davis@sgms.com / password123 (Dr. James Davis - Crop Science)
+  - prof.miller@sgms.com / password123 (Prof. Patricia Miller - Animal Science)
+  - dr.wilson@sgms.com / password123 (Dr. Thomas Wilson - Software Engineering)
+  - prof.taylor@sgms.com / password123 (Prof. Lisa Taylor - Networks & Security)
 - Students: student1@sgms.com to student20@sgms.com / password123
   - Each student has unique admission number ADM001 to ADM020
 
