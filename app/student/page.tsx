@@ -10,7 +10,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export default async function StudentPage() {
-  // Session check is now handled by middleware
+  const session = await getServerSession(authOptions);
 
   // Get student details with enrollments
   const student = await prisma.student.findUnique({

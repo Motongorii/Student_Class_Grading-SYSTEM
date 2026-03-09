@@ -2,8 +2,8 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '../../lib/authOptions';
 
 export default async function InstructorPage() {
-  // Session check is now handled by middleware
-  // Debug info
+  const session = await getServerSession(authOptions);
+  
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 via-indigo-100 to-purple-50 px-2 py-0">
       <div className="w-full max-w-2xl bg-white rounded-2xl shadow-xl p-8 flex flex-col items-center gap-6 border-t-4 border-purple-400 mt-8">

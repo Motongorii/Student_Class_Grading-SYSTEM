@@ -182,13 +182,22 @@ async function main() {
     const students: any[] = [];
 
     // Engineering Students
-    for (let i = 1; i <= 5; i++) {
+    const engineeringStudents = [
+      { firstName: 'Alex', lastName: 'Johnson', email: 'alex.johnson@sgms.com' },
+      { firstName: 'Maria', lastName: 'Garcia', email: 'maria.garcia@sgms.com' },
+      { firstName: 'David', lastName: 'Chen', email: 'david.chen@sgms.com' },
+      { firstName: 'Sarah', lastName: 'Patel', email: 'sarah.patel@sgms.com' },
+      { firstName: 'Michael', lastName: 'Rodriguez', email: 'michael.rodriguez@sgms.com' }
+    ];
+
+    for (let i = 0; i < engineeringStudents.length; i++) {
+      const studentData = engineeringStudents[i];
       const student = await prisma.student.create({
         data: {
-          admissionNo: `ENG${1000 + i}`,
-          firstName: `Engineering${i}`,
-          lastName: `Student${i}`,
-          email: `eng.student${i}@sgms.com`,
+          admissionNo: `ENG${1001 + i}`,
+          firstName: studentData.firstName,
+          lastName: studentData.lastName,
+          email: studentData.email,
           courseProgram: 'Bachelor of Engineering',
           yearOfStudy: Math.floor(i / 2) + 1,
           status: 'ACTIVE'
@@ -198,8 +207,8 @@ async function main() {
       // Create corresponding User record for authentication
       await prisma.user.create({
         data: {
-          email: `eng.student${i}@sgms.com`,
-          name: `Engineering${i} Student${i}`,
+          email: studentData.email,
+          name: `${studentData.firstName} ${studentData.lastName}`,
           passwordHash: studentPassword,
           role: 'STUDENT',
           department: 'Engineering',
@@ -211,13 +220,22 @@ async function main() {
     }
 
     // Education Students
-    for (let i = 1; i <= 5; i++) {
+    const educationStudents = [
+      { firstName: 'Emily', lastName: 'Thompson', email: 'emily.thompson@sgms.com' },
+      { firstName: 'James', lastName: 'Wilson', email: 'james.wilson@sgms.com' },
+      { firstName: 'Olivia', lastName: 'Martinez', email: 'olivia.martinez@sgms.com' },
+      { firstName: 'Benjamin', lastName: 'Lee', email: 'benjamin.lee@sgms.com' },
+      { firstName: 'Sophia', lastName: 'Anderson', email: 'sophia.anderson@sgms.com' }
+    ];
+
+    for (let i = 0; i < educationStudents.length; i++) {
+      const studentData = educationStudents[i];
       const student = await prisma.student.create({
         data: {
-          admissionNo: `EDU${1000 + i}`,
-          firstName: `Education${i}`,
-          lastName: `Student${i}`,
-          email: `edu.student${i}@sgms.com`,
+          admissionNo: `EDU${1001 + i}`,
+          firstName: studentData.firstName,
+          lastName: studentData.lastName,
+          email: studentData.email,
           courseProgram: 'Bachelor of Education',
           yearOfStudy: Math.floor(i / 2) + 1,
           status: 'ACTIVE'
@@ -227,8 +245,8 @@ async function main() {
       // Create corresponding User record for authentication
       await prisma.user.create({
         data: {
-          email: `edu.student${i}@sgms.com`,
-          name: `Education${i} Student${i}`,
+          email: studentData.email,
+          name: `${studentData.firstName} ${studentData.lastName}`,
           passwordHash: studentPassword,
           role: 'STUDENT',
           department: 'Education',
@@ -240,13 +258,22 @@ async function main() {
     }
 
     // Agriculture Students
-    for (let i = 1; i <= 5; i++) {
+    const agricultureStudents = [
+      { firstName: 'William', lastName: 'Taylor', email: 'william.taylor@sgms.com' },
+      { firstName: 'Isabella', lastName: 'Brown', email: 'isabella.brown@sgms.com' },
+      { firstName: 'Lucas', lastName: 'Davis', email: 'lucas.davis@sgms.com' },
+      { firstName: 'Ava', lastName: 'Miller', email: 'ava.miller@sgms.com' },
+      { firstName: 'Ethan', lastName: 'Wilson', email: 'ethan.wilson@sgms.com' }
+    ];
+
+    for (let i = 0; i < agricultureStudents.length; i++) {
+      const studentData = agricultureStudents[i];
       const student = await prisma.student.create({
         data: {
-          admissionNo: `AGR${1000 + i}`,
-          firstName: `Agriculture${i}`,
-          lastName: `Student${i}`,
-          email: `agr.student${i}@sgms.com`,
+          admissionNo: `AGR${1001 + i}`,
+          firstName: studentData.firstName,
+          lastName: studentData.lastName,
+          email: studentData.email,
           courseProgram: 'Bachelor of Agriculture',
           yearOfStudy: Math.floor(i / 2) + 1,
           status: 'ACTIVE'
@@ -256,8 +283,8 @@ async function main() {
       // Create corresponding User record for authentication
       await prisma.user.create({
         data: {
-          email: `agr.student${i}@sgms.com`,
-          name: `Agriculture${i} Student${i}`,
+          email: studentData.email,
+          name: `${studentData.firstName} ${studentData.lastName}`,
           passwordHash: studentPassword,
           role: 'STUDENT',
           department: 'Agriculture',
@@ -269,13 +296,22 @@ async function main() {
     }
 
     // Computing Students
-    for (let i = 1; i <= 5; i++) {
+    const computingStudents = [
+      { firstName: 'Charlotte', lastName: 'Moore', email: 'charlotte.moore@sgms.com' },
+      { firstName: 'Mason', lastName: 'Jackson', email: 'mason.jackson@sgms.com' },
+      { firstName: 'Harper', lastName: 'White', email: 'harper.white@sgms.com' },
+      { firstName: 'Elijah', lastName: 'Harris', email: 'elijah.harris@sgms.com' },
+      { firstName: 'Amelia', lastName: 'Clark', email: 'amelia.clark@sgms.com' }
+    ];
+
+    for (let i = 0; i < computingStudents.length; i++) {
+      const studentData = computingStudents[i];
       const student = await prisma.student.create({
         data: {
-          admissionNo: `CSC${1000 + i}`,
-          firstName: `Computing${i}`,
-          lastName: `Student${i}`,
-          email: `csc.student${i}@sgms.com`,
+          admissionNo: `CSC${1001 + i}`,
+          firstName: studentData.firstName,
+          lastName: studentData.lastName,
+          email: studentData.email,
           courseProgram: 'Bachelor of Computing',
           yearOfStudy: Math.floor(i / 2) + 1,
           status: 'ACTIVE'
@@ -285,8 +321,8 @@ async function main() {
       // Create corresponding User record for authentication
       await prisma.user.create({
         data: {
-          email: `csc.student${i}@sgms.com`,
-          name: `Computing${i} Student${i}`,
+          email: studentData.email,
+          name: `${studentData.firstName} ${studentData.lastName}`,
           passwordHash: studentPassword,
           role: 'STUDENT',
           department: 'Computing',

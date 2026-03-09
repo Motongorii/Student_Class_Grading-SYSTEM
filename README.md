@@ -131,10 +131,10 @@ Visit `http://localhost:3000`
   - dr.wilson@sgms.com / password123 (Dr. Thomas Wilson - Software Engineering)
   - prof.taylor@sgms.com / password123 (Prof. Lisa Taylor - Networks & Security)
 - Students:
-  - Engineering: eng.student1@sgms.com to eng.student5@sgms.com / password123
-  - Education: edu.student1@sgms.com to edu.student5@sgms.com / password123
-  - Agriculture: agr.student1@sgms.com to agr.student5@sgms.com / password123
-  - Computing: csc.student1@sgms.com to csc.student5@sgms.com / password123
+  - Engineering: alex.johnson@sgms.com, maria.garcia@sgms.com, david.chen@sgms.com, sarah.patel@sgms.com, michael.rodriguez@sgms.com / password123
+  - Education: emily.thompson@sgms.com, james.wilson@sgms.com, olivia.martinez@sgms.com, benjamin.lee@sgms.com, sophia.anderson@sgms.com / password123
+  - Agriculture: william.taylor@sgms.com, isabella.brown@sgms.com, lucas.davis@sgms.com, ava.miller@sgms.com, ethan.wilson@sgms.com / password123
+  - Computing: charlotte.moore@sgms.com, mason.jackson@sgms.com, harper.white@sgms.com, elijah.harris@sgms.com, amelia.clark@sgms.com / password123
   - Each student has unique admission number (ENG1001-ENG1005, EDU1001-EDU1005, AGR1001-AGR1005, CSC1001-CSC1005)
 
 ## Notes

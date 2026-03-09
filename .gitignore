@@ -4,3 +4,7 @@ dist/
 .env
 *.log
 coverage/
+# Database files
+*.db
+*.db-journal
+prisma/prisma/*.db
