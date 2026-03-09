@@ -65,7 +65,6 @@ async function main() {
         name: 'Admin User',
         passwordHash: adminPassword,
         role: 'ADMIN',
-        department: 'Administration',
       }
     });
 
@@ -76,7 +75,6 @@ async function main() {
         name: 'Jane Registrar',
         passwordHash: registrarPassword,
         role: 'REGISTRAR',
-        department: 'Registrar Office',
       }
     });
 
@@ -90,7 +88,6 @@ async function main() {
         name: 'Dr. John Smith',
         passwordHash: instructorPassword,
         role: 'INSTRUCTOR',
-        department: 'Mechanical Engineering',
         faculty: { connect: { id: facultyEngineering.id } }
       }
     });
@@ -101,7 +98,6 @@ async function main() {
         name: 'Prof. Michael Johnson',
         passwordHash: instructorPassword,
         role: 'INSTRUCTOR',
-        department: 'Civil Engineering',
         faculty: { connect: { id: facultyEngineering.id } }
       }
     });
@@ -113,7 +109,6 @@ async function main() {
         name: 'Dr. Sarah Williams',
         passwordHash: instructorPassword,
         role: 'INSTRUCTOR',
-        department: 'Psychology & Education',
         faculty: { connect: { id: facultyEducation.id } }
       }
     });
@@ -124,7 +119,6 @@ async function main() {
         name: 'Prof. Robert Brown',
         passwordHash: instructorPassword,
         role: 'INSTRUCTOR',
-        department: 'Curriculum & Instruction',
         faculty: { connect: { id: facultyEducation.id } }
       }
     });
@@ -136,7 +130,6 @@ async function main() {
         name: 'Dr. James Davis',
         passwordHash: instructorPassword,
         role: 'INSTRUCTOR',
-        department: 'Crop Science',
         faculty: { connect: { id: facultyAgriculture.id } }
       }
     });
@@ -147,7 +140,6 @@ async function main() {
         name: 'Prof. Patricia Miller',
         passwordHash: instructorPassword,
         role: 'INSTRUCTOR',
-        department: 'Animal Science',
         faculty: { connect: { id: facultyAgriculture.id } }
       }
     });
@@ -159,7 +151,6 @@ async function main() {
         name: 'Dr. Thomas Wilson',
         passwordHash: instructorPassword,
         role: 'INSTRUCTOR',
-        department: 'Software Engineering',
         faculty: { connect: { id: facultyComputing.id } }
       }
     });
@@ -170,7 +161,6 @@ async function main() {
         name: 'Prof. Lisa Taylor',
         passwordHash: instructorPassword,
         role: 'INSTRUCTOR',
-        department: 'Networks & Security',
         faculty: { connect: { id: facultyComputing.id } }
       }
     });
@@ -211,7 +201,6 @@ async function main() {
           name: `${studentData.firstName} ${studentData.lastName}`,
           passwordHash: studentPassword,
           role: 'STUDENT',
-          department: 'Engineering',
           faculty: { connect: { id: facultyEngineering.id } }
         }
       });
@@ -249,7 +238,6 @@ async function main() {
           name: `${studentData.firstName} ${studentData.lastName}`,
           passwordHash: studentPassword,
           role: 'STUDENT',
-          department: 'Education',
           faculty: { connect: { id: facultyEducation.id } }
         }
       });
@@ -287,7 +275,6 @@ async function main() {
           name: `${studentData.firstName} ${studentData.lastName}`,
           passwordHash: studentPassword,
           role: 'STUDENT',
-          department: 'Agriculture',
           faculty: { connect: { id: facultyAgriculture.id } }
         }
       });
@@ -325,7 +312,6 @@ async function main() {
           name: `${studentData.firstName} ${studentData.lastName}`,
           passwordHash: studentPassword,
           role: 'STUDENT',
-          department: 'Computing',
           faculty: { connect: { id: facultyComputing.id } }
         }
       });
