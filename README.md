@@ -86,7 +86,14 @@ Create a `.env` file in the root with:
 DATABASE_URL=postgresql://USER:PASSWORD@HOST/DATABASE
 NEXTAUTH_SECRET=your_random_secret_key
 NEXTAUTH_URL=http://localhost:3000
+SEED_SECRET=your_secure_seed_secret_key
 ```
+
+**For Vercel deployment**, add these environment variables in your Vercel dashboard:
+- `DATABASE_URL` - Your Neon PostgreSQL connection string
+- `NEXTAUTH_SECRET` - Random secret key for NextAuth
+- `NEXTAUTH_URL` - Your Vercel deployment URL (e.g., https://your-app.vercel.app)
+- `SEED_SECRET` - Secure key for database seeding (keep this secret!)
 
 ### 2. Install Dependencies
 ```bash
@@ -102,6 +109,13 @@ npx prisma migrate deploy
 ```bash
 npx prisma db seed
 ```
+
+**For Vercel/Production deployment:**
+After deploying to Vercel, seed the production database by visiting:
+```
+https://your-app.vercel.app/api/seed?secret=YOUR_SEED_SECRET
+```
+Replace `your-app.vercel.app` with your actual Vercel URL and `YOUR_SEED_SECRET` with the value from your environment variables.
 
 ### 5. Run Development Server
 ```bash
