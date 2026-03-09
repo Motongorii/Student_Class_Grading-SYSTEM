@@ -4,50 +4,61 @@ import { authOptions } from '../../lib/authOptions';
 import AdminSidebar from '../../components/AdminSidebar';
 import { PrismaClient } from '@prisma/client';
 import Link from 'next/link';
+import LogoutButton from '../../components/LogoutButton';
+
+// Force dynamic rendering since this page uses getServerSession
+export const dynamic = 'force-dynamic';
 
 const prisma = new PrismaClient();
 
 export default async function AdminPage() {
-  // Session check is now handled by middleware
-  const session = await getServerSession(authOptions);
-
-  // Get system statistics
-  const totalStudents = await prisma.student.count();
-  const totalUsers = await prisma.user.count();
-  const totalCourses = await prisma.course.count();
-  const totalFaculties = await prisma.faculty.count();
-  const totalInstructors = await prisma.user.count({ where: { role: 'INSTRUCTOR' } });
-  const totalRegistrars = await prisma.user.count({ where: { role: 'REGISTRAR' } });
-  const totalGradeEntries = await prisma.gradeEntry.count();
-  const totalEnrollments = await prisma.enrollment.count();
-  
-  // Get detailed data by faculty
-  const faculties = await prisma.faculty.findMany({
-    include: {
-      courses: {
-        include: {
-          instructors: { include: { instructor: true } },
-          assessments: true,
-          enrollments: true
-        }
-      },
-      users: { where: { role: 'INSTRUCTOR' } }
+  try {
+    // Session check is now handled by middleware
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return <div className="text-red-600 p-8">Not authenticated</div>;
     }
-  });
 
-  const recentAuditLogs = await prisma.auditLog.findMany({
-    take: 8,
-    orderBy: { createdAt: 'desc' },
-    include: { actorUser: true }
-  });
+    // Get system statistics
+    const totalStudents = await prisma.student.count();
+    const totalUsers = await prisma.user.count();
+    const totalCourses = await prisma.course.count();
+    const totalFaculties = await prisma.faculty.count();
+    const totalInstructors = await prisma.user.count({ where: { role: 'INSTRUCTOR' } });
+    const totalRegistrars = await prisma.user.count({ where: { role: 'REGISTRAR' } });
+    const totalGradeEntries = await prisma.gradeEntry.count();
+    const totalEnrollments = await prisma.enrollment.count();
+    
+    // Get detailed data by faculty
+    const faculties = await prisma.faculty.findMany({
+      include: {
+        courses: {
+          include: {
+            instructors: { include: { instructor: true } },
+            assessments: true,
+            enrollments: true
+          }
+        },
+        users: { where: { role: 'INSTRUCTOR' } }
+      }
+    });
+
+    const recentAuditLogs = await prisma.auditLog.findMany({
+      take: 8,
+      orderBy: { createdAt: 'desc' },
+      include: { actorUser: true }
+    });
 
   return (
     <div className="flex min-h-screen">
       <AdminSidebar />
       <main className="flex-1 p-8 bg-gray-50">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Admin Dashboard</h1>
-          <p className="text-gray-600">Welcome back, {session.user.name}. Here's an overview of your system.</p>
+        <div className="mb-8 flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Admin Dashboard</h1>
+            <p className="text-gray-600">Welcome back, {session.user.name}. Here's an overview of your system.</p>
+          </div>
+          <LogoutButton className="text-sm text-red-600 hover:underline" />
         </div>
 
         {/* Statistics Cards */}
@@ -239,5 +250,17 @@ export default async function AdminPage() {
         </div>
       </main>
     </div>
-  );
+    );
+  } catch (error: any) {
+    console.error('Admin page error:', error);
+    return (
+      <div className="flex min-h-screen bg-red-50 items-center justify-center">
+        <div className="bg-white p-8 rounded-lg shadow-lg">
+          <h2 className="text-2xl font-bold text-red-600 mb-2">Error Loading Admin Dashboard</h2>
+          <p className="text-gray-600 mb-4">{error?.message || 'An unexpected error occurred'}</p>
+          <p className="text-sm text-gray-500">Check server logs for more details</p>
+        </div>
+      </div>
+    );
+  }
 }

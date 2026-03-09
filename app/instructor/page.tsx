@@ -1,6 +1,7 @@
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../lib/authOptions';
 import { redirect } from 'next/navigation';
+import LogoutButton from '../../components/LogoutButton';
 
 export default async function InstructorPage() {
   const session = await getServerSession(authOptions);
@@ -13,9 +14,12 @@ export default async function InstructorPage() {
       <div className="w-full max-w-2xl bg-white rounded-2xl shadow-xl p-8 flex flex-col items-center gap-6 border-t-4 border-purple-400 mt-8">
         <div className="w-full flex justify-between items-center mb-2">
           <h1 className="text-3xl font-extrabold text-purple-700 tracking-tight">Instructor Dashboard</h1>
-          <a href="/" className="inline-flex items-center px-4 py-2 bg-purple-100 text-purple-700 font-semibold rounded-lg shadow hover:bg-purple-200 transition-all text-sm">
-            ← Home
-          </a>
+          <div className="flex items-center gap-2">
+            <a href="/" className="inline-flex items-center px-4 py-2 bg-purple-100 text-purple-700 font-semibold rounded-lg shadow hover:bg-purple-200 transition-all text-sm">
+              ← Home
+            </a>
+            <LogoutButton />
+          </div>
         </div>
         <pre className="mb-2 bg-gray-100 p-2 rounded text-xs text-gray-600 w-full hidden">Session: {JSON.stringify(session, null, 2)}</pre>
         <div className="w-full bg-gradient-to-r from-purple-100 via-indigo-100 to-blue-100 rounded-xl p-6 shadow flex flex-col items-start mb-4">

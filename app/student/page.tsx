@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
 import { PrismaClient } from '@prisma/client';
+import LogoutButton from '../../components/LogoutButton';
 
 const prisma = new PrismaClient();
 
@@ -59,9 +60,12 @@ export default async function StudentPage() {
               <h1 className="text-3xl font-extrabold text-blue-700 tracking-tight">Student Dashboard</h1>
               <p className="text-gray-600 mt-1">Welcome, {student?.firstName} {student?.lastName}</p>
             </div>
-            <a href="/" className="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-700 font-semibold rounded-lg shadow hover:bg-blue-200 transition-all text-sm">
-              ← Home
-            </a>
+            <div className="flex items-center gap-2">
+              <a href="/" className="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-700 font-semibold rounded-lg shadow hover:bg-blue-200 transition-all text-sm">
+                ← Home
+              </a>
+              <LogoutButton />
+            </div>
           </div>
           
           {/* Student Info */}

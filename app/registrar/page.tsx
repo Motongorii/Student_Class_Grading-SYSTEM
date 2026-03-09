@@ -4,6 +4,7 @@ import { authOptions } from '../../lib/authOptions';
 import { redirect } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { PrismaClient } from '@prisma/client';
+import LogoutButton from '../../components/LogoutButton';
 
 const prisma = new PrismaClient();
 
@@ -37,9 +38,12 @@ export default async function RegistrarPage() {
               <h1 className="text-3xl font-extrabold text-pink-700 tracking-tight">Registrar Dashboard</h1>
               <p className="text-gray-600 mt-1">Welcome back, {session?.user?.name}</p>
             </div>
-            <a href="/" className="inline-flex items-center px-4 py-2 bg-pink-100 text-pink-700 font-semibold rounded-lg shadow hover:bg-pink-200 transition-all text-sm">
-              ← Home
-            </a>
+            <div className="flex items-center gap-2">
+              <a href="/" className="inline-flex items-center px-4 py-2 bg-pink-100 text-pink-700 font-semibold rounded-lg shadow hover:bg-pink-200 transition-all text-sm">
+                ← Home
+              </a>
+              <LogoutButton />
+            </div>
           </div>
 
           {/* Stats Cards */}

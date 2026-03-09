@@ -47,6 +47,7 @@ Registrar:  registrar@sgms.com / password123
 - ✅ NextAuth.js integration
 - ✅ JWT token management
 - ✅ Secure password hashing (bcrypt)
+- ✅ Logout link on each dashboard to end session
 
 **User Flows**:
 ```

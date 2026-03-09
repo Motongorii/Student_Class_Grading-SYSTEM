@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import LogoutButton from '../../../components/LogoutButton';
 
 export default function StudentTranscriptPage() {
   const [transcript, setTranscript] = useState(null);
@@ -50,12 +51,15 @@ export default function StudentTranscriptPage() {
     <div className="container mx-auto p-6 max-w-4xl">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold text-purple-700">Academic Transcript</h1>
-        <button
-          onClick={printTranscript}
-          className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 print:hidden"
-        >
-          Print Transcript
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={printTranscript}
+            className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 print:hidden"
+          >
+            Print Transcript
+          </button>
+          <LogoutButton />
+        </div>
       </div>
 
       {transcript && (

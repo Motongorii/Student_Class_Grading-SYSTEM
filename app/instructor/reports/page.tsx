@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import LogoutButton from '../../../components/LogoutButton';
 
 export default function InstructorReportsPage() {
   const [courses, setCourses] = useState([]);
@@ -61,7 +62,10 @@ export default function InstructorReportsPage() {
 
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6 text-purple-700">Course Reports</h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold text-purple-700">Course Reports</h1>
+        <LogoutButton />
+      </div>
 
       <div className="bg-white rounded-lg shadow p-6 mb-6">
         <div className="flex gap-4 items-end">

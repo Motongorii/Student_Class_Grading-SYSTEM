@@ -29,8 +29,6 @@ export default function AssessmentCreateModal({ open, onClose, onCreated }) {
 
   if (!open) return null;
 
-  if (!open) return null;
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -46,7 +44,23 @@ export default function AssessmentCreateModal({ open, onClose, onCreated }) {
           courseId
         }),
       });
-      if (!res.ok) throw new Error("Failed to create assessment");
+      if (!res.ok) {
+        // try to read error details from the response
+        let msg = "Failed to create assessment";
+        try {
+          const errData = await res.json();
+          if (errData?.error) msg = errData.error;
+          if (errData?.details) {
+            // details could be an object or string
+            if (typeof errData.details === 'string') {
+              msg += `: ${errData.details}`;
+            } else {
+              msg += `: ${JSON.stringify(errData.details)}`;
+            }
+          }
+        } catch {}
+        throw new Error(msg);
+      }
       setName("");
       setWeight("");
       setMaxMarks("");
