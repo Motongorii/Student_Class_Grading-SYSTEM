@@ -6,6 +6,14 @@ const prisma = new PrismaClient();
 
 export async function GET(request: NextRequest) {
   try {
+    // ensure production schema is up to date (facultyId column added, department removed)
+    await prisma.$executeRawUnsafe(`
+      ALTER TABLE "User" ADD COLUMN IF NOT EXISTS "facultyId" TEXT;
+    `);
+    await prisma.$executeRawUnsafe(`
+      ALTER TABLE "User" DROP COLUMN IF EXISTS "department";
+    `);
+
     // Check for a secret key to prevent unauthorized access
     const { searchParams } = new URL(request.url);
     const secret = searchParams.get('secret');
