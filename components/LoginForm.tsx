@@ -21,6 +21,8 @@ export default function LoginForm({ roleHint = '' }: { roleHint?: string }) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [slow, setSlow] = useState(false);
+  const [showResetModal, setShowResetModal] = useState(false);
+  const [showContactModal, setShowContactModal] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -131,7 +133,7 @@ export default function LoginForm({ roleHint = '' }: { roleHint?: string }) {
           />
           <span className="ml-2 text-gray-700">Remember me</span>
         </label>
-        <a href="#" className="text-blue-600 hover:underline text-sm">Forgot password?</a>
+        <button type="button" className="text-blue-600 hover:underline text-sm" onClick={() => setShowResetModal(true)}>Forgot password?</button>
       </div>
       {error && <div className="text-red-500 text-sm text-center mb-2">{error}</div>}
       {slow && loading && (
@@ -145,8 +147,62 @@ export default function LoginForm({ roleHint = '' }: { roleHint?: string }) {
         {loading ? 'Signing in...' : 'Sign In'}
       </button>
       <div className="text-center mt-4 text-sm text-gray-600">
-        Don&apos;t have an account? <a href="#" className="text-blue-600 hover:underline">Contact admin</a>
+        Don&apos;t have an account? <button type="button" className="text-blue-600 hover:underline" onClick={() => setShowContactModal(true)}>Contact admin</button>
       </div>
+      {showResetModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+          <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md relative">
+            <button className="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-xl" onClick={() => setShowResetModal(false)}>&times;</button>
+            <h2 className="text-xl font-bold mb-4 text-blue-700">Password Recovery</h2>
+            <form onSubmit={async e => {
+              e.preventDefault();
+              const res = await fetch('/api/auth/forgot-password', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+              });
+              setShowResetModal(false);
+              alert('If this email exists, a reset link will be sent.');
+            }} className="space-y-4">
+              <div>
+                <label className="block text-sm font-semibold mb-1">Email Address</label>
+                <input className="w-full border rounded px-3 py-2" type="email" value={email} onChange={e => setEmail(e.target.value)} required />
+              </div>
+              <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded font-semibold shadow hover:bg-blue-700">Send Reset Link</button>
+            </form>
+          </div>
+        </div>
+      )}
+      {showContactModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+          <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md relative">
+            <button className="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-xl" onClick={() => setShowContactModal(false)}>&times;</button>
+            <h2 className="text-xl font-bold mb-4 text-blue-700">Contact Admin</h2>
+            <form onSubmit={async e => {
+              e.preventDefault();
+              const form = e.target as HTMLFormElement;
+              const msg = (form.elements.namedItem('adminMessage') as HTMLTextAreaElement).value;
+              const res = await fetch('/api/contact-admin', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, message: msg })
+              });
+              setShowContactModal(false);
+              alert('Your message has been sent to the admin.');
+            }} className="space-y-4">
+              <div>
+                <label className="block text-sm font-semibold mb-1">Your Email</label>
+                <input className="w-full border rounded px-3 py-2" type="email" value={email} onChange={e => setEmail(e.target.value)} required />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold mb-1">Message</label>
+                <textarea name="adminMessage" className="w-full border rounded px-3 py-2" rows={4} required></textarea>
+              </div>
+              <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded font-semibold shadow hover:bg-blue-700">Send Message</button>
+            </form>
+          </div>
+        </div>
+      )}
     </form>
   </>
   );
