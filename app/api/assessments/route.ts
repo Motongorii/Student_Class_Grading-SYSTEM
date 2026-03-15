@@ -78,13 +78,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'You are not assigned to this course' }, { status: 403 });
   }
 
-  // Validate total weights for the course
-  const { weight } = parsed.data;
-  const existing = await prisma.assessment.findMany({ where: { courseId } });
-  const totalWeight = existing.reduce((sum, a) => sum + a.weight, 0) + weight;
-  if (totalWeight > 100) {
-    return NextResponse.json({ error: 'Total assessment weight exceeds 100' }, { status: 400 });
-  }
+  // (Removed validation for total weights exceeding 100%)
   try {
     const assessment = await prisma.assessment.create({
       data: {
