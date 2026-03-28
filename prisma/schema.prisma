@@ -98,7 +98,7 @@ model GradeEntry {
   studentId         String
   assessment        Assessment @relation(fields: [assessmentId], references: [id])
   assessmentId      String
-  marks             Int
+  marks             Float
   status            String
   createdBy         User      @relation("CreatedByUser", fields: [createdByUserId], references: [id])
   createdByUserId   String

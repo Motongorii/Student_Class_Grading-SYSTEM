@@ -74,10 +74,10 @@ export default function Home() {
       <section className="w-full py-6 flex flex-col items-center bg-white">
         <h2 className="text-lg font-semibold text-gray-700 mb-2">Trusted by institutions worldwide</h2>
         <div className="flex flex-wrap gap-4 justify-center items-center">
-          <span className="w-24 h-8 bg-gray-200 rounded shadow-inner flex items-center justify-center text-xs text-gray-500">School A</span>
-          <span className="w-24 h-8 bg-gray-200 rounded shadow-inner flex items-center justify-center text-xs text-gray-500">College B</span>
-          <span className="w-24 h-8 bg-gray-200 rounded shadow-inner flex items-center justify-center text-xs text-gray-500">University C</span>
-          <span className="w-24 h-8 bg-gray-200 rounded shadow-inner flex items-center justify-center text-xs text-gray-500">Academy D</span>
+          <span className="w-24 h-8 bg-gray-200 rounded shadow-inner flex items-center justify-center text-xs text-gray-500">Nairobi School</span>
+          <span className="w-24 h-8 bg-gray-200 rounded shadow-inner flex items-center justify-center text-xs text-gray-500">Utalii College</span>
+          <span className="w-24 h-8 bg-gray-200 rounded shadow-inner flex items-center justify-center text-xs text-gray-500">KCA University</span>
+          <span className="w-24 h-8 bg-gray-200 rounded shadow-inner flex items-center justify-center text-xs text-gray-500">BrookHouse Academy</span>
         </div>
       </section>
 
@@ -100,10 +100,10 @@ export default function Home() {
       {/* Testimonial Section */}
       <section className="w-full py-10 bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 flex flex-col items-center">
         <div className="max-w-2xl bg-white rounded-2xl shadow-xl p-8 flex flex-col items-center text-center gap-4 border border-slate-100">
-          <img src="https://www.eskooly.com/resources/images/shapes/lall.webp" alt="School Head" className="w-16 h-16 rounded-full object-cover border-2 border-blue-400" />
+          <img src="Images/rfud.jpeg" alt="Dr. Rufus Gikera" className="w-16 h-16 rounded-full object-cover border-2 border-blue-400" />
           <p className="text-lg text-gray-700 italic">“SGMS has streamlined our grading and reporting process. It’s reliable, intuitive, and has significantly enhanced our efficiency.”</p>
-          <span className="font-semibold text-blue-700">Maheshwari Lall</span>
-          <span className="text-sm text-gray-500">School Head | Redhill School, Sandton, SA</span>
+          <span className="font-semibold text-blue-700">Dr. Rufus Gikera</span>
+          <span className="text-sm text-gray-500">Lecturer | KCA University</span>
         </div>
       </section>
 

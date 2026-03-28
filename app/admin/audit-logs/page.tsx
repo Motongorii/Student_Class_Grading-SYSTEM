@@ -10,11 +10,20 @@ export default async function AuditLogsPage() {
   const session = await getServerSession(authOptions);
   if (!session || session.user.role !== 'ADMIN') redirect('/login');
 
-  const auditLogs = await prisma.auditLog.findMany({
-    include: { user: true },
-    orderBy: { createdAt: 'desc' },
-    take: 100
-  });
+  let auditLogs;
+  try {
+    auditLogs = await prisma.auditLog.findMany({
+      include: { user: true },
+      orderBy: { createdAt: 'desc' },
+      take: 100
+    });
+  } catch (error) {
+    // Fallback when legacy schema lacks userId column
+    auditLogs = await prisma.auditLog.findMany({
+      orderBy: { createdAt: 'desc' },
+      take: 100
+    });
+  }
 
   return (
     <div className="flex min-h-screen">
@@ -55,7 +64,7 @@ export default async function AuditLogsPage() {
                 {auditLogs.map((log) => (
                   <tr key={log.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      {log.user?.name || 'Unknown'}
+                      {log.user?.name || log.userId || 'Unknown'}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
