@@ -83,11 +83,13 @@ A production-ready, full-stack grading management platform for universities and 
 Create a `.env` file in the root with:
 
 ```
-DATABASE_URL=postgresql://USER:PASSWORD@HOST/DATABASE
+DATABASE_URL=file:./sgms.db
 NEXTAUTH_SECRET=your_random_secret_key
 NEXTAUTH_URL=http://localhost:3000
 SEED_SECRET=your_secure_seed_secret_key
 ```
+
+> Note: current Prisma schema is set to `sqlite`, so `DATABASE_URL` must be `file:./sgms.db` unless you explicitly swap `prisma/schema.prisma` to `provider = "postgresql"` for production PostgreSQL/Neon deployments, then set `DATABASE_URL=postgresql://USER:PASSWORD@HOST/DATABASE`.
 
 **For Vercel deployment**, add these environment variables in your Vercel dashboard:
 - `DATABASE_URL` - Your Neon PostgreSQL connection string
