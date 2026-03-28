@@ -466,3 +466,6 @@ async function runAllTests() {
 
 // Run tests
 runAllTests().catch(console.error);
+
+export {};
+
