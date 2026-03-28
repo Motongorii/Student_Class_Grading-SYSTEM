@@ -34,6 +34,15 @@
     "**/*.tsx"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "integration-test.ts",
+    "verify-api.ts",
+    "test-workflow.ts",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "__tests__",
+    "components/**/*.test.tsx",
+    "prisma/migrations/**",
+    "public/**"
   ]
 }
