@@ -9,32 +9,60 @@ export default function StudentGradesClient() {
   const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
 
   useEffect(() => {
-    async function fetchData() {
+    let pollingTimer: NodeJS.Timeout | null = null;
+
+    const fetchData = async () => {
       setLoading(true);
       try {
         const [gradesRes, coursesRes] = await Promise.all([
           fetch("/api/grade-entries"),
           fetch("/api/students/enrollments")
         ]);
-        
+
+        if (!gradesRes.ok || !coursesRes.ok) {
+          throw new Error('Failed to fetch data');
+        }
+
         const gradesData = await gradesRes.json();
         const enrollmentData = await coursesRes.json();
-        
+
         setGrades(gradesData);
         if (enrollmentData.enrolledCourses) {
           setCourses(enrollmentData.enrolledCourses);
-          if (enrollmentData.enrolledCourses.length > 0) {
+          if (!selectedCourse && enrollmentData.enrolledCourses.length > 0) {
             setSelectedCourse(enrollmentData.enrolledCourses[0].id);
           }
         }
+
+        setError("");
       } catch (e) {
         setError("Failed to load grades");
       } finally {
         setLoading(false);
       }
-    }
+    };
+
     fetchData();
-  }, []);
+
+    // Poll every 8 seconds for new grade entries
+    pollingTimer = setInterval(fetchData, 8000);
+
+    // BroadcastChannel for real-time sync across tabs
+    let channel: BroadcastChannel | null = null;
+    if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
+      channel = new BroadcastChannel('sgms-grade-updates');
+      channel.onmessage = (event) => {
+        if (event.data?.type === 'GRADE_CREATED' || event.data?.type === 'ASSESSMENT_CREATED') {
+          fetchData();
+        }
+      };
+    }
+
+    return () => {
+      if (pollingTimer) clearInterval(pollingTimer);
+      if (channel) channel.close();
+    };
+  }, [selectedCourse]);
 
   // Filter grades by selected course
   const filteredGrades = selectedCourse

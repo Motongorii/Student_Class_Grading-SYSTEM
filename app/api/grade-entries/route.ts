@@ -13,8 +13,8 @@ const gradeEntrySchema = z.object({
   assessmentId: z.string().min(1),
   studentId: z.string().min(1),
   marks: z.number().min(0),
-  status: z.enum(['DRAFT', 'SUBMITTED', 'APPROVED']).default('SUBMITTED'),
-});
+  status: z.enum(['DRAFT', 'SUBMITTED', 'APPROVED']).optional(),
+}).transform((data) => ({ ...data, status: data.status ?? 'SUBMITTED' }));
 
 export async function GET(req: NextRequest) {
   const session = await getServerSession(authOptions);

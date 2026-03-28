@@ -38,9 +38,24 @@ export default function InstructorGradeEntryClient() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ studentId, assessmentId, marks }),
     });
-    if (!res.ok) throw new Error("Failed to save grade");
+
+    if (!res.ok) {
+      const errorData = await res.json().catch(() => null);
+      const message =
+        (errorData && (errorData.error || errorData.message)) ||
+        `Failed to save grade (HTTP ${res.status})`;
+      throw new Error(message);
+    }
+
     const newEntry = await res.json();
-    setEntries(e => [newEntry, ...e]);
+    setEntries((e) => [newEntry, ...e]);
+
+    // Broadcast a grade update event to sibling tabs/components (student side)
+    if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
+      const channel = new BroadcastChannel('sgms-grade-updates');
+      channel.postMessage({ type: 'GRADE_CREATED', payload: newEntry });
+      channel.close();
+    }
   }
 
   return (
@@ -95,7 +110,14 @@ export default function InstructorGradeEntryClient() {
       <AssessmentCreateModal
         open={showAssessmentModal}
         onClose={() => setShowAssessmentModal(false)}
-        onCreated={fetchData}
+        onCreated={async () => {
+          await fetchData();
+          if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
+            const channel = new BroadcastChannel('sgms-grade-updates');
+            channel.postMessage({ type: 'ASSESSMENT_CREATED' });
+            channel.close();
+          }
+        }}
       />
     </div>
   );

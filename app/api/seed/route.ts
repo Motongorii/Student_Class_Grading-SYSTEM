@@ -6,14 +6,6 @@ const prisma = new PrismaClient();
 
 export async function GET(request: NextRequest) {
   try {
-    // ensure production schema is up to date (facultyId column added, department removed)
-    await prisma.$executeRawUnsafe(`
-      ALTER TABLE "User" ADD COLUMN IF NOT EXISTS "facultyId" TEXT;
-    `);
-    await prisma.$executeRawUnsafe(`
-      ALTER TABLE "User" DROP COLUMN IF EXISTS "department";
-    `);
-
     // Check for a secret key to prevent unauthorized access
     const { searchParams } = new URL(request.url);
     const secret = searchParams.get('secret');
@@ -28,7 +20,7 @@ export async function GET(request: NextRequest) {
     if (!envSecret) {
       return NextResponse.json({
         success: false,
-        error: 'SEED_SECRET environment variable not set in Vercel dashboard'
+        error: 'SEED_SECRET environment variable not set'
       }, { status: 500 });
     }
 
@@ -37,13 +29,13 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({
         success: false,
         error: 'Invalid or missing secret. Secrets do not match.',
-        hint: 'Ensure SEED_SECRET in Vercel matches the secret in your URL'
+        hint: 'Ensure SEED_SECRET matches the secret in your URL'
       }, { status: 401 });
     }
 
     console.log('Starting database seeding...');
 
-    // Clean existing data
+    // Clean existing data (order matters for foreign keys)
     await prisma.auditLog.deleteMany();
     await prisma.gradeEntry.deleteMany();
     await prisma.computedGrade.deleteMany();

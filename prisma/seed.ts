@@ -5,17 +5,9 @@ const prisma = new PrismaClient();
 
 async function main() {
   try {
-    // ensure local/production database has necessary columns
-    await prisma.$executeRawUnsafe(`
-      ALTER TABLE "User" ADD COLUMN IF NOT EXISTS "facultyId" TEXT;
-    `);
-    await prisma.$executeRawUnsafe(`
-      ALTER TABLE "User" DROP COLUMN IF EXISTS "department";
-    `);
-
     console.log('Starting comprehensive seed...');
 
-    // Clean existing data
+    // Clean existing data (order matters for foreign keys)
     await prisma.auditLog.deleteMany();
     await prisma.gradeEntry.deleteMany();
     await prisma.computedGrade.deleteMany();

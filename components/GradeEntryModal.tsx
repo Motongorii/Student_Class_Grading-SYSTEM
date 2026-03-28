@@ -14,14 +14,22 @@ export default function GradeEntryModal({ open, onClose, onSubmit, students, ass
     e.preventDefault();
     setLoading(true);
     setError("");
+
+    const numericMarks = parseFloat(marks);
+    if (Number.isNaN(numericMarks) || numericMarks < 0) {
+      setError("Please enter a valid mark greater than or equal to 0.");
+      setLoading(false);
+      return;
+    }
+
     try {
-      await onSubmit({ studentId, assessmentId, marks: parseFloat(marks) });
+      await onSubmit({ studentId, assessmentId, marks: numericMarks });
       setStudentId("");
       setAssessmentId("");
       setMarks("");
       onClose();
     } catch (err) {
-      setError(err.message || "Failed to submit grade");
+      setError((err as Error).message || "Failed to submit grade");
     } finally {
       setLoading(false);
     }
