@@ -80,7 +80,7 @@ A production-ready, full-stack grading management platform for universities and 
 ## Setup
 
 ### 1. Environment Variables
-Create a `.env` file in the root with:
+Create a `.env` file in the root with (local development):
 
 ```
 DATABASE_URL=file:./sgms.db
@@ -89,9 +89,24 @@ NEXTAUTH_URL=http://localhost:3000
 SEED_SECRET=your_secure_seed_secret_key
 ```
 
-> Note: current Prisma schema is set to `sqlite`, so `DATABASE_URL` must be `file:./sgms.db` unless you explicitly swap `prisma/schema.prisma` to `provider = "postgresql"` for production PostgreSQL/Neon deployments, then set `DATABASE_URL=postgresql://USER:PASSWORD@HOST/DATABASE`.
+> Note: `prisma/schema.prisma` defaults to `provider = "sqlite"`, so local `DATABASE_URL` must begin with `file:`.
+
+For PostgreSQL/Neon on Vercel, set your config as:
+
+```
+DATABASE_URL=postgresql://USER:PASSWORD@HOST/DATABASE
+NEXTAUTH_SECRET=your_random_secret_key
+NEXTAUTH_URL=https://your-app.vercel.app
+SEED_SECRET=your_secure_seed_secret_key
+```
 
 **For Vercel deployment**, add these environment variables in your Vercel dashboard:
+- `DATABASE_URL` - Your Neon PostgreSQL connection string
+- `NEXTAUTH_SECRET` - Random secret key for NextAuth
+- `NEXTAUTH_URL` - Your Vercel deployment URL (e.g., https://your-app.vercel.app)
+- `SEED_SECRET` - Secure key for database seeding (keep this secret!)
+
+Note: in Vercel, to avoid the URL-protocol mismatch error, ensure `DATABASE_URL` starts with `postgresql://` when `prisma/schema.prisma` is set for PostgreSQL via the copy script.
 - `DATABASE_URL` - Your Neon PostgreSQL connection string
 - `NEXTAUTH_SECRET` - Random secret key for NextAuth
 - `NEXTAUTH_URL` - Your Vercel deployment URL (e.g., https://your-app.vercel.app)
