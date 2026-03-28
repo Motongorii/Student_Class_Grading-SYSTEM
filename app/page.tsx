@@ -55,7 +55,15 @@ export default function Home() {
               Student Portal
             </button>
           </div>
-          <p className="text-xs text-white/80 mt-4">* Admin access is available only via the <span className="font-semibold">/admin</span> route.</p>
+          <div className="flex flex-col sm:flex-row gap-4 w-full max-w-lg mx-auto justify-center mt-4">
+            <button
+              className="flex-1 w-full bg-white/90 text-black font-bold py-3 rounded-xl shadow-lg hover:bg-gray-100 hover:scale-105 transition-all text-lg focus:outline-none focus:ring-2 focus:ring-black"
+              onClick={() => navigatePortal('ADMIN', '/admin')}
+            >
+              Admin Portal
+            </button>
+          </div>
+          <p className="text-xs text-white/80 mt-4">* Admin access is now available via the <span className="font-semibold">Admin Portal</span> button and <span className="font-semibold">/admin</span> route.</p>
         </div>
         {/* Decorative shapes */}
         <div className="absolute top-0 left-0 w-40 h-40 bg-blue-200/40 rounded-full blur-3xl -z-1 animate-pulse" />

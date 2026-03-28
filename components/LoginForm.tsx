@@ -16,6 +16,7 @@ import { useRouter } from 'next/navigation';
 export default function LoginForm({ roleHint = '' }: { roleHint?: string }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loginRole, setLoginRole] = useState(roleHint.toUpperCase() || 'STUDENT');
   const [showPassword, setShowPassword] = useState(false);
   const [remember, setRemember] = useState(false);
   const [error, setError] = useState('');
@@ -35,13 +36,13 @@ export default function LoginForm({ roleHint = '' }: { roleHint?: string }) {
     const res = await signIn('credentials', {
       email,
       password,
-      role: roleHint.toUpperCase(),
+      role: loginRole,
       redirect: false,
       callbackUrl:
-        roleHint === 'ADMIN' ? '/admin'
-        : roleHint === 'INSTRUCTOR' ? '/instructor'
-        : roleHint === 'REGISTRAR' ? '/registrar'
-        : roleHint === 'STUDENT' ? '/student'
+        loginRole === 'ADMIN' ? '/admin'
+        : loginRole === 'INSTRUCTOR' ? '/instructor'
+        : loginRole === 'REGISTRAR' ? '/registrar'
+        : loginRole === 'STUDENT' ? '/student'
         : '/',
     });
     clearTimeout(slowTimeout);
@@ -67,11 +68,21 @@ export default function LoginForm({ roleHint = '' }: { roleHint?: string }) {
       >
         ← Back to Homepage
       </button>
-      {roleHint && (
-        <div className="mb-4 text-center text-lg font-bold text-blue-700">
-          {roleLabels[roleHint.toUpperCase()] || roleHint} Sign In
-        </div>
-      )}
+      <div className="mb-4 text-center text-lg font-bold text-blue-700">
+        {roleLabels[loginRole] || loginRole} Sign In
+      </div>
+      <div className="mb-4 flex gap-2 justify-center">
+        {Object.entries(roleLabels).map(([key, label]) => (
+          <button
+            key={key}
+            type="button"
+            className={`px-3 py-1 rounded-lg border ${loginRole === key ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-gray-700 border-gray-300'} text-sm font-semibold`}
+            onClick={() => setLoginRole(key)}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
       <form
         onSubmit={handleSubmit}
         className="space-y-6 bg-white p-8 rounded-lg shadow-lg w-full max-w-md mx-auto animate-fade-in"
