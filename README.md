@@ -153,20 +153,20 @@ Visit `http://localhost:3000`
 - Admin: admin@sgms.com / password123
 - Registrar: registrar@sgms.com / password123
 - Instructors:
-  - dr.smith@sgms.com / password123 (Dr. John Smith - Mechanical Engineering)
-  - prof.johnson@sgms.com / password123 (Prof. Michael Johnson - Civil Engineering)
-  - dr.williams@sgms.com / password123 (Dr. Sarah Williams - Psychology & Education)
-  - prof.brown@sgms.com / password123 (Prof. Robert Brown - Curriculum & Instruction)
-  - dr.davis@sgms.com / password123 (Dr. James Davis - Crop Science)
-  - prof.miller@sgms.com / password123 (Prof. Patricia Miller - Animal Science)
-  - dr.wilson@sgms.com / password123 (Dr. Thomas Wilson - Software Engineering)
-  - prof.taylor@sgms.com / password123 (Prof. Lisa Taylor - Networks & Security)
+  - dr.smith@sgms.com / password123 (Dr. John Smith - KCA)
+  - prof.johnson@sgms.com / password123 (Prof. Michael Johnson - KCA)
+  - dr.williams@sgms.com / password123 (Dr. Sarah Williams - Nairobi School)
+  - prof.brown@sgms.com / password123 (Prof. Robert Brown - Nairobi School)
+  - dr.davis@sgms.com / password123 (Dr. James Davis - Booker Academy)
+  - prof.miller@sgms.com / password123 (Prof. Patricia Miller - Booker Academy)
+  - dr.wilson@sgms.com / password123 (Dr. Thomas Wilson - School of Computing)
+  - prof.taylor@sgms.com / password123 (Prof. Lisa Taylor - School of Computing)
 - Students:
-  - Engineering: alex.johnson@sgms.com, maria.garcia@sgms.com, david.chen@sgms.com, sarah.patel@sgms.com, michael.rodriguez@sgms.com / password123
-  - Education: emily.thompson@sgms.com, james.wilson@sgms.com, olivia.martinez@sgms.com, benjamin.lee@sgms.com, sophia.anderson@sgms.com / password123
-  - Agriculture: william.taylor@sgms.com, isabella.brown@sgms.com, lucas.davis@sgms.com, ava.miller@sgms.com, ethan.wilson@sgms.com / password123
-  - Computing: charlotte.moore@sgms.com, mason.jackson@sgms.com, harper.white@sgms.com, elijah.harris@sgms.com, amelia.clark@sgms.com / password123
-  - Each student has unique admission number (ENG1001-ENG1005, EDU1001-EDU1005, AGR1001-AGR1005, CSC1001-CSC1005)
+  - **KCA (Engineering):** john.kiprop@sgms.com, mary.wanjiku@sgms.com, peter.kiprotich@sgms.com, grace.nyambura@sgms.com, james.kipkoech@sgms.com / password123
+  - **Nairobi School (Education):** elizabeth.cherono@sgms.com, joseph.kipruto@sgms.com, ann.mutua@sgms.com, david.koech@sgms.com, margaret.wairimu@sgms.com / password123
+  - **Booker Academy (Agriculture):** samuel.oduya@sgms.com, rose.achieng@sgms.com, daniel.mburu@sgms.com, joyce.njeri@sgms.com, paul.kamau@sgms.com / password123
+  - **School of Computing:** faith.kariuki@sgms.com, kevin.ochieng@sgms.com, sharon.atieno@sgms.com, brian.njoroge@sgms.com, caroline.wambui@sgms.com / password123
+  - Each student has unique admission number (KCA1001-KCA1005, NS1001-NS1005, BA1001-BA1005, CSC1001-CSC1005)
 
 ## Notes
 - See SRS for full requirements.

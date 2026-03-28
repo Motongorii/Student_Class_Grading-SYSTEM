@@ -25,25 +25,25 @@ async function main() {
     // ========== CREATE FACULTIES ==========
     const facultyEngineering = await prisma.faculty.create({
       data: {
-        name: 'School of Engineering',
-        code: 'ENG',
-        description: 'Faculty of Engineering and Technology',
+        name: 'KCA',
+        code: 'KCA',
+        description: 'KCA University',
       }
     });
 
     const facultyEducation = await prisma.faculty.create({
       data: {
-        name: 'School of Education',
-        code: 'EDU',
-        description: 'Faculty of Education and Teacher Training',
+        name: 'Nairobi School',
+        code: 'NS',
+        description: 'Nairobi School',
       }
     });
 
     const facultyAgriculture = await prisma.faculty.create({
       data: {
-        name: 'School of Agriculture',
-        code: 'AGR',
-        description: 'Faculty of Agriculture and Environmental Sciences',
+        name: 'Booker Academy',
+        code: 'BA',
+        description: 'Booker Academy',
       }
     });
 
@@ -173,11 +173,11 @@ async function main() {
 
     // Engineering Students
     const engineeringStudents = [
-      { firstName: 'Alex', lastName: 'Johnson', email: 'alex.johnson@sgms.com' },
-      { firstName: 'Maria', lastName: 'Garcia', email: 'maria.garcia@sgms.com' },
-      { firstName: 'David', lastName: 'Chen', email: 'david.chen@sgms.com' },
-      { firstName: 'Sarah', lastName: 'Patel', email: 'sarah.patel@sgms.com' },
-      { firstName: 'Michael', lastName: 'Rodriguez', email: 'michael.rodriguez@sgms.com' }
+      { firstName: 'John', lastName: 'Kiprop', email: 'john.kiprop@sgms.com' },
+      { firstName: 'Mary', lastName: 'Wanjiku', email: 'mary.wanjiku@sgms.com' },
+      { firstName: 'Peter', lastName: 'Kiprotich', email: 'peter.kiprotich@sgms.com' },
+      { firstName: 'Grace', lastName: 'Nyambura', email: 'grace.nyambura@sgms.com' },
+      { firstName: 'James', lastName: 'Kipkoech', email: 'james.kipkoech@sgms.com' }
     ];
 
     for (let i = 0; i < engineeringStudents.length; i++) {
@@ -210,11 +210,11 @@ async function main() {
 
     // Education Students
     const educationStudents = [
-      { firstName: 'Emily', lastName: 'Thompson', email: 'emily.thompson@sgms.com' },
-      { firstName: 'James', lastName: 'Wilson', email: 'james.wilson@sgms.com' },
-      { firstName: 'Olivia', lastName: 'Martinez', email: 'olivia.martinez@sgms.com' },
-      { firstName: 'Benjamin', lastName: 'Lee', email: 'benjamin.lee@sgms.com' },
-      { firstName: 'Sophia', lastName: 'Anderson', email: 'sophia.anderson@sgms.com' }
+      { firstName: 'Elizabeth', lastName: 'Cherono', email: 'elizabeth.cherono@sgms.com' },
+      { firstName: 'Joseph', lastName: 'Kipruto', email: 'joseph.kipruto@sgms.com' },
+      { firstName: 'Ann', lastName: 'Mutua', email: 'ann.mutua@sgms.com' },
+      { firstName: 'David', lastName: 'Koech', email: 'david.koech@sgms.com' },
+      { firstName: 'Margaret', lastName: 'Wairimu', email: 'margaret.wairimu@sgms.com' }
     ];
 
     for (let i = 0; i < educationStudents.length; i++) {
@@ -247,11 +247,11 @@ async function main() {
 
     // Agriculture Students
     const agricultureStudents = [
-      { firstName: 'William', lastName: 'Taylor', email: 'william.taylor@sgms.com' },
-      { firstName: 'Isabella', lastName: 'Brown', email: 'isabella.brown@sgms.com' },
-      { firstName: 'Lucas', lastName: 'Davis', email: 'lucas.davis@sgms.com' },
-      { firstName: 'Ava', lastName: 'Miller', email: 'ava.miller@sgms.com' },
-      { firstName: 'Ethan', lastName: 'Wilson', email: 'ethan.wilson@sgms.com' }
+      { firstName: 'Samuel', lastName: 'Oduya', email: 'samuel.oduya@sgms.com' },
+      { firstName: 'Rose', lastName: 'Achieng', email: 'rose.achieng@sgms.com' },
+      { firstName: 'Daniel', lastName: 'Mburu', email: 'daniel.mburu@sgms.com' },
+      { firstName: 'Joyce', lastName: 'Njeri', email: 'joyce.njeri@sgms.com' },
+      { firstName: 'Paul', lastName: 'Kamau', email: 'paul.kamau@sgms.com' }
     ];
 
     for (let i = 0; i < agricultureStudents.length; i++) {
@@ -284,11 +284,11 @@ async function main() {
 
     // Computing Students
     const computingStudents = [
-      { firstName: 'Charlotte', lastName: 'Moore', email: 'charlotte.moore@sgms.com' },
-      { firstName: 'Mason', lastName: 'Jackson', email: 'mason.jackson@sgms.com' },
-      { firstName: 'Harper', lastName: 'White', email: 'harper.white@sgms.com' },
-      { firstName: 'Elijah', lastName: 'Harris', email: 'elijah.harris@sgms.com' },
-      { firstName: 'Amelia', lastName: 'Clark', email: 'amelia.clark@sgms.com' }
+      { firstName: 'Faith', lastName: 'Kariuki', email: 'faith.kariuki@sgms.com' },
+      { firstName: 'Kevin', lastName: 'Ochieng', email: 'kevin.ochieng@sgms.com' },
+      { firstName: 'Sharon', lastName: 'Atieno', email: 'sharon.atieno@sgms.com' },
+      { firstName: 'Brian', lastName: 'Njoroge', email: 'brian.njoroge@sgms.com' },
+      { firstName: 'Caroline', lastName: 'Wambui', email: 'caroline.wambui@sgms.com' }
     ];
 
     for (let i = 0; i < computingStudents.length; i++) {

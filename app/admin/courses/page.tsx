@@ -67,9 +67,9 @@ export default async function CoursesPage() {
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{course.title}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{course.credits}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {course.title.includes('Education') ? 'School of Education' :
-                       course.title.includes('Engineering') ? 'School of Engineering' :
-                       course.title.includes('Agriculture') ? 'School of Agriculture' :
+                      {course.title.includes('Education') ? 'Nairobi School' :
+                       course.title.includes('Engineering') ? 'KCA' :
+                       course.title.includes('Agriculture') ? 'Booker Academy' :
                        course.title.includes('Computing') ? 'School of Computing' : 'General'}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -94,9 +94,9 @@ export default async function CoursesPage() {
                 <div>
                   <span className="text-sm font-medium text-gray-500">Faculty: </span>
                   <span className="text-sm text-gray-900">
-                    {course.title.includes('Education') ? 'School of Education' :
-                     course.title.includes('Engineering') ? 'School of Engineering' :
-                     course.title.includes('Agriculture') ? 'School of Agriculture' :
+                    {course.title.includes('Education') ? 'Nairobi School' :
+                     course.title.includes('Engineering') ? 'KCA' :
+                     course.title.includes('Agriculture') ? 'Booker Academy' :
                      course.title.includes('Computing') ? 'School of Computing' : 'General'}
                   </span>
                 </div>

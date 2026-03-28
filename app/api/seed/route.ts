@@ -53,25 +53,25 @@ export async function GET(request: NextRequest) {
     // ========== CREATE FACULTIES ==========
     const facultyEngineering = await prisma.faculty.create({
       data: {
-        name: 'School of Engineering',
-        code: 'ENG',
-        description: 'Faculty of Engineering and Technology',
+        name: 'KCA',
+        code: 'KCA',
+        description: 'KCA University',
       }
     });
 
     const facultyEducation = await prisma.faculty.create({
       data: {
-        name: 'School of Education',
-        code: 'EDU',
-        description: 'Faculty of Education and Teacher Training',
+        name: 'Nairobi School',
+        code: 'NS',
+        description: 'Nairobi School',
       }
     });
 
     const facultyAgriculture = await prisma.faculty.create({
       data: {
-        name: 'School of Agriculture',
-        code: 'AGR',
-        description: 'Faculty of Agriculture and Environmental Sciences',
+        name: 'Booker Academy',
+        code: 'BA',
+        description: 'Booker Academy',
       }
     });
 
