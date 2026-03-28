@@ -1,0 +1,134 @@
+// SQLite schema for Student Grading Management System
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         String
+  faculty      Faculty? @relation(fields: [facultyId], references: [id])
+  facultyId    String?
+  createdAt    DateTime @default(now())
+  instructorCourses CourseInstructor[] @relation("InstructorCourses")
+  createdGradeEntries GradeEntry[] @relation("CreatedByUser")
+  approvedGradeEntries GradeEntry[] @relation("ApprovedByUser")
+  auditLogs AuditLog[]
+}
+
+model Faculty {
+  id           String   @id @default(uuid())
+  name         String   @unique
+  code         String   @unique
+  description  String?
+  createdAt    DateTime @default(now())
+  users        User[]
+  courses      Course[]
+}
+
+model Student {
+  id            String   @id @default(uuid())
+  admissionNo   String   @unique
+  firstName     String
+  lastName      String
+  email         String   @unique
+  courseProgram String
+  yearOfStudy   Int
+  status        String
+  createdAt     DateTime @default(now())
+  enrollments   Enrollment[]
+  computedGrades ComputedGrade[]
+  gradeEntries  GradeEntry[]
+}
+
+model Course {
+  id        String   @id @default(uuid())
+  code      String   @unique
+  title     String
+  credits   Int
+  faculty   Faculty  @relation(fields: [facultyId], references: [id])
+  facultyId String
+  createdAt DateTime @default(now())
+  instructors CourseInstructor[]
+  assessments Assessment[]
+  enrollments Enrollment[]
+  computedGrades ComputedGrade[]
+}
+
+model CourseInstructor {
+  id               String   @id @default(uuid())
+  course           Course   @relation(fields: [courseId], references: [id])
+  courseId         String
+  instructor       User     @relation("InstructorCourses", fields: [instructorUserId], references: [id])
+  instructorUserId String
+}
+
+model Assessment {
+  id        String   @id @default(uuid())
+  course    Course   @relation(fields: [courseId], references: [id])
+  courseId  String
+  name      String
+  weight    Int
+  maxMarks  Int
+  gradeEntries GradeEntry[]
+}
+
+model Enrollment {
+  id        String   @id @default(uuid())
+  student   Student  @relation(fields: [studentId], references: [id])
+  studentId String
+  course    Course   @relation(fields: [courseId], references: [id])
+  courseId  String
+  createdAt DateTime @default(now())
+}
+
+model GradeEntry {
+  id                String   @id @default(uuid())
+  student           Student  @relation(fields: [studentId], references: [id])
+  studentId         String
+  assessment        Assessment @relation(fields: [assessmentId], references: [id])
+  assessmentId      String
+  marks             Int
+  status            String
+  createdBy         User      @relation("CreatedByUser", fields: [createdByUserId], references: [id])
+  createdByUserId   String
+  approvedBy        User?     @relation("ApprovedByUser", fields: [approvedByUserId], references: [id])
+  approvedByUserId  String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+model ComputedGrade {
+  id        String   @id @default(uuid())
+  student   Student  @relation(fields: [studentId], references: [id])
+  studentId String
+  gpa       Float
+  letter    String
+  createdAt DateTime @default(now())
+}
+
+model GradeScale {
+  id        String   @id @default(uuid())
+  min       Int
+  max       Int
+  letter    String
+  gpa       Float
+  createdAt DateTime @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  action    String
+  metadata  Json?
+  createdAt DateTime @default(now())
+}
