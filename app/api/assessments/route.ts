@@ -46,7 +46,7 @@ export async function GET(req: NextRequest) {
     assessments = assessmentList;
   } else {
     // For admin, return all assessments
-    assessments = await prisma.assessment.findMany({ orderBy: { createdAt: 'desc' } });
+    assessments = await prisma.assessment.findMany({ orderBy: { name: 'asc' } });
   }
 
   return NextResponse.json(assessments);

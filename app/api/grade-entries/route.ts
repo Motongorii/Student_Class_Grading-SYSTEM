@@ -83,11 +83,11 @@ export async function POST(req: NextRequest) {
   try {
     const entry = await prisma.gradeEntry.create({
       data: {
-        assessment: { connect: { id: parsed.data.assessmentId } },
-        student: { connect: { id: parsed.data.studentId } },
+        assessmentId: parsed.data.assessmentId,
+        studentId: parsed.data.studentId,
         marks: parsed.data.marks,
         status: parsed.data.status,
-        createdByUser: { connect: { id: (session.user as any).id } },
+        createdByUserId: (session.user as any).id
       },
       include: { assessment: true, student: true },
     });

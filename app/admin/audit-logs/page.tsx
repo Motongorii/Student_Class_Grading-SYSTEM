@@ -11,7 +11,7 @@ export default async function AuditLogsPage() {
   if (!session || session.user.role !== 'ADMIN') redirect('/login');
 
   const auditLogs = await prisma.auditLog.findMany({
-    include: { actorUser: true },
+    include: { user: true },
     orderBy: { createdAt: 'desc' },
     take: 100
   });
@@ -47,8 +47,7 @@ export default async function AuditLogsPage() {
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Entity</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Details</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Metadata</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Timestamp</th>
                 </tr>
               </thead>
@@ -56,7 +55,7 @@ export default async function AuditLogsPage() {
                 {auditLogs.map((log) => (
                   <tr key={log.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      {log.actorUser?.name || 'Unknown'}
+                      {log.user?.name || 'Unknown'}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
@@ -68,10 +67,7 @@ export default async function AuditLogsPage() {
                         {log.action}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{log.entityType}</td>
-                    <td className="px-6 py-4 text-sm text-gray-600">
-                      <span className="truncate max-w-xs block">{log.afterJSON || log.beforeJSON || 'N/A'}</span>
-                    </td>
+                    <td className="px-6 py-4 text-sm text-gray-600 truncate max-w-xs">{log.metadata || 'N/A'}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {new Date(log.createdAt).toLocaleString()}
                     </td>

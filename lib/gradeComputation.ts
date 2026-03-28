@@ -39,7 +39,7 @@ export async function computeStudentGrade(studentId: string, courseId: string) {
   });
 
   const letterGrade = gradeScale?.letter || 'F';
-  const gpaPoints = gradeScale?.points || 0;
+  const gpaPoints = gradeScale?.gpa || 0;
 
   // Save computed grade
   const computedGrade = await prisma.computedGrade.upsert({

@@ -22,12 +22,33 @@ export default function InstructorReportsPage() {
     fetchCourses();
   }, []);
 
-  const generateReport = async () => {
+  useEffect(() => {
+    let channel: BroadcastChannel | null = null;
+
+    if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
+      channel = new BroadcastChannel('sgms-grade-updates');
+      channel.onmessage = () => {
+        if (selectedCourse) fetchReport();
+      };
+    }
+
+    const interval = setInterval(() => {
+      if (selectedCourse) fetchReport();
+    }, 15000);
+
+    return () => {
+      clearInterval(interval);
+      if (channel) channel.close();
+    };
+  }, [selectedCourse]);
+
+  const fetchReport = async () => {
     if (!selectedCourse) return;
 
     setLoading(true);
     try {
-      const res = await fetch(`/api/courses/${selectedCourse}/report`);
+      const res = await fetch(`/api/courses/${selectedCourse}/report`, { cache: 'no-store' });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       setReportData(data);
     } catch (error) {
@@ -35,6 +56,10 @@ export default function InstructorReportsPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const generateReport = async () => {
+    await fetchReport();
   };
 
   const exportToCSV = () => {
@@ -90,6 +115,13 @@ export default function InstructorReportsPage() {
             className="bg-purple-600 text-white px-6 py-2 rounded hover:bg-purple-700 disabled:opacity-50"
           >
             {loading ? "Generating..." : "Generate Report"}
+          </button>
+          <button
+            onClick={fetchReport}
+            disabled={!selectedCourse || loading}
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+          >
+            Refresh
           </button>
         </div>
       </div>

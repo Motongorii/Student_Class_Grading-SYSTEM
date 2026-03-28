@@ -88,6 +88,8 @@ model Enrollment {
   course    Course   @relation(fields: [courseId], references: [id])
   courseId  String
   createdAt DateTime @default(now())
+
+  @@unique([studentId, courseId])
 }
 
 model GradeEntry {

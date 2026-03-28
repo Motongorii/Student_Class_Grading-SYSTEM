@@ -559,11 +559,11 @@ async function main() {
     // ========== CREATE GRADE SCALES ==========
     await prisma.gradeScale.createMany({
       data: [
-        { letter: 'A', min: 80, max: 100, points: 4.0 },
-        { letter: 'B', min: 70, max: 79, points: 3.0 },
-        { letter: 'C', min: 60, max: 69, points: 2.0 },
-        { letter: 'D', min: 50, max: 59, points: 1.0 },
-        { letter: 'F', min: 0, max: 49, points: 0.0 }
+        { letter: 'A', min: 80, max: 100, gpa: 4.0 },
+        { letter: 'B', min: 70, max: 79, gpa: 3.0 },
+        { letter: 'C', min: 60, max: 69, gpa: 2.0 },
+        { letter: 'D', min: 50, max: 59, gpa: 1.0 },
+        { letter: 'F', min: 0, max: 49, gpa: 0.0 }
       ]
     });
 

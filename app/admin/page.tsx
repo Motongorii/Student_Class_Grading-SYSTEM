@@ -46,7 +46,7 @@ export default async function AdminPage() {
     const recentAuditLogs = await prisma.auditLog.findMany({
       take: 8,
       orderBy: { createdAt: 'desc' },
-      include: { actorUser: true }
+      include: { user: true }
     });
 
   return (
@@ -153,7 +153,7 @@ export default async function AdminPage() {
                   <div key={log.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
                     <div className="flex-1">
                       <p className="text-sm font-medium text-gray-900">{log.action}</p>
-                      <p className="text-xs text-gray-600">by {log.actorUser?.name || 'Unknown'}</p>
+                      <p className="text-xs text-gray-600">by {log.user?.name || 'Unknown'}</p>
                     </div>
                     <div className="text-xs text-gray-500">
                       {new Date(log.createdAt).toLocaleDateString()}
