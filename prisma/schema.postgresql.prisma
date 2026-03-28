@@ -107,12 +107,17 @@ model GradeEntry {
 }
 
 model ComputedGrade {
-  id        String   @id @default(uuid())
-  student   Student  @relation(fields: [studentId], references: [id])
-  studentId String
-  gpa       Float
-  letter    String
-  createdAt DateTime @default(now())
+  id           String   @id @default(uuid())
+  student      Student  @relation(fields: [studentId], references: [id])
+  studentId    String
+  course       Course   @relation(fields: [courseId], references: [id])
+  courseId     String
+  totalWeighted Float
+  letterGrade  String
+  gpaPoints    Float?
+  computedAt   DateTime @default(now())
+
+  @@unique([studentId, courseId])
 }
 
 model GradeScale {
