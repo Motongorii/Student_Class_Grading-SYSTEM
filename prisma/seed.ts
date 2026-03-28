@@ -25,25 +25,25 @@ async function main() {
     // ========== CREATE FACULTIES ==========
     const facultyEngineering = await prisma.faculty.create({
       data: {
-        name: 'KCA',
-        code: 'KCA',
-        description: 'KCA University',
+        name: 'School of Engineering',
+        code: 'ENG',
+        description: 'Faculty of Engineering and Technology',
       }
     });
 
     const facultyEducation = await prisma.faculty.create({
       data: {
-        name: 'Nairobi School',
-        code: 'NS',
-        description: 'Nairobi School',
+        name: 'School of Education',
+        code: 'EDU',
+        description: 'Faculty of Education and Teacher Training',
       }
     });
 
     const facultyAgriculture = await prisma.faculty.create({
       data: {
-        name: 'Booker Academy',
-        code: 'BA',
-        description: 'Booker Academy',
+        name: 'School of Agriculture',
+        code: 'AGR',
+        description: 'Faculty of Agriculture and Environmental Sciences',
       }
     });
 
