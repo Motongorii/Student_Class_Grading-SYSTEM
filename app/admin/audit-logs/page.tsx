@@ -67,7 +67,7 @@ export default async function AuditLogsPage() {
                         {log.action}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-600 truncate max-w-xs">{log.metadata || 'N/A'}</td>
+                    <td className="px-6 py-4 text-sm text-gray-600 truncate max-w-xs">{typeof log.metadata === 'string' ? log.metadata : JSON.stringify(log.metadata || 'N/A')}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {new Date(log.createdAt).toLocaleString()}
                     </td>
